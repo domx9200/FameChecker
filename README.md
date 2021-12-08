@@ -1,7 +1,7 @@
 # FameChecker
  A module created for pokemon essentials that adds the Fame Checker from Fire Red and Leaf Green as an item. While this should be easy to install into your game, there are a few things that need to be noted. I will also have a list of things that I'd like to implement down the line as well. 
 
-Currently, it only works with version 19 or 19.1 or essentials as that is the newest version at the current time, I will most likely update this tool as the version of essentials also updates, possibly supporting older versions along the way.
+Currently, it only works with version 19 or 19.1 of essentials as that is the newest version at the current time, I will most likely update this tool as the version of essentials also updates, possibly supporting older versions along the way.
 
 ---
 ## Installation
@@ -9,7 +9,7 @@ Currently, it only works with version 19 or 19.1 or essentials as that is the ne
 ```
 634,FAMECHECKER,Fame Checker, Fame Checkers,8,0,"A machine that allows you to see who people are talking about.",2,0,6,
 ```
-please keep in mind that the 634 must be changed to the next number in line in your current items.txt file, the value I have here is just the value expected when booting up a new copy of Pokemon Essentials.
+please keep in mind that the 634 must be changed to a number that isn't in use by your items.txt file, the value I have here is just the value expected when booting up a new copy of Pokemon Essentials.
 
 ---
 ## Usage
