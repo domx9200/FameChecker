@@ -20,6 +20,7 @@ ItemHandlers::UseFromBag.add(:FAMECHECKER, proc { |item|
 # can't be having FameChecker twice (though I think it's not going to error if you do), so the class will be called FC
 # to keep them seperate enough
 module FameChecker
+  @@calledSetup = false
   class FC
     def defineVars()
       # misc values, all are really important, but not really
@@ -120,10 +121,8 @@ module FameChecker
   end
 
   def self.create()
-    if $PokemonGlobal.FameTargets.size == 0
-      FameChecker.setupFamousPeople()
-      FameChecker.setupFameInfo()
-    end
+    FameChecker.checkSetup
+    FameChecker.runSetup
     pbFadeOutIn{
       fc = FC.new
       fc.defineVars

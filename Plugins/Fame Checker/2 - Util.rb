@@ -76,4 +76,24 @@ module FameChecker
       return 0
     end
   end
+
+  def self.checkSetup()
+    if !$PokemonGlobal.FameTargets
+      $PokemonGlobal.FameTargets = {}
+    end
+
+    if !$PokemonGlobal.FameInfo
+      $PokemonGlobal.FameInfo = {}
+    end
+  end
+
+  def self.runSetup()
+    puts(@@calledSetup)
+    if !@@calledSetup
+      FameChecker.setupFamousPeople()
+      FameChecker.setupFameInfo()
+      @@calledSetup = true
+    end
+    puts(@@calledSetup)
+  end
 end

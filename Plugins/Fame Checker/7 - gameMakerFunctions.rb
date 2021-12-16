@@ -10,6 +10,13 @@ module FameChecker
   # this function is usually to be called during a scripting event with that person, 
 	# but isn't supposed to be displayed
   def self.hasEncountered(famousPersonName, hasMet = true)
+    FameChecker.checkSetup
+    FameChecker.runSetup
+
+    if !$PokemonGlobal.FameTargets[famousPersonName]
+      print("name input doesn't exist")
+      return
+    end
     $PokemonGlobal.FameTargets[famousPersonName]["seen"] = hasMet
   end
 
@@ -24,12 +31,30 @@ module FameChecker
     # player has encountered an NPC that has given them some info about the specific character.
   # this is usually called during the text boxes that relay that info, and is usually not to be displayed.
   def self.hasFoundInfo(famousPersonName, infoNum, hasFound = true)
+    FameChecker.checkSetup
+    FameChecker.runSetup
+
+    if !$PokemonGlobal.FameTargets[famousPersonName]
+      print("name input doesn't exist")
+      return
+    end
+
+    if !$PokemonGlobal.FameInfo[famousPersonName][infoNum]
+      print("the number you input for the info of #{famousPersonName} doesn't exist.")
+    end
     $PokemonGlobal.FameInfo[famousPersonName][infoNum]["seen"] = hasFound
   end
 
   # for debugging purposes, usually you want to call it, store the value in the npc script
     # and then print it within that script. You can probably use it for a fame checker NPC if you want one.
   def self.printFoundStatus(famousPersonName)
+    FameChecker.checkSetup
+    FameChecker.runSetup
+
+    if !$PokemonGlobal.FameTargets[famousPersonName]
+      print("name input doesn't exist")
+      return
+    end
     return $PokemonGlobal.FameTargets[famousPersonName]["seen"]
   end
 
@@ -40,9 +65,10 @@ module FameChecker
     # example "BROCK.png", note that you should have the file within the big_sprites folder
   # hasMet = boolean, not required, can be true or false, defaults to false when not given
     # decides if the player has met the person in question, normally the player wouldn't have at the beginning
-    # of the game, so false is the default statement. 
+    # of the game, so false is the default statement.
   # If you want to use this function within the game's interface, it must be called using FameChecker.createFamousPerson
   def self.createFamousPerson(personName, fileName, hasMet = false)
+    FameChecker.checkSetup
     newHash = {}
     newHash["fileName"] = fileName.upcase
     newHash["seen"] = hasMet
@@ -63,6 +89,7 @@ module FameChecker
     # of the game, so false is the default statement.
   # If you want to use this function within the game's interface, it must be called using FameChecker.createFameInfo
   def self.createFameInfo(personName, fileName, textBoxText, selectText, hoverText, hasMet = false)
+    FameChecker.checkSetup
     if !$PokemonGlobal.FameTargets[personName]
       print("name input doesn't exist")
       return
