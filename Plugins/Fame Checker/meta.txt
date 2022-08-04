@@ -1,10 +1,19 @@
 Name    = Fame Checker
-Version = 1.0.0
+Version = 1.0.1
+Essentials = 20
 Website = https://github.com/domx9200/FameChecker
 Credits = domx9200
 
 #=====================================================================
 # Change log
+#=====================================================================
+# 1.0.1
+# Bug Fix
+# 	Fixed the error that happens when you try to use the included functions before
+#		starting a new save file, now the code should be self correcting, and the user
+#		will need no special input.
+# Please make sure not to overwrite the functions self.setupFamousPeople and self.setupFameInfo
+#	when copying everything over, as they will be over-written if you dont.
 #=====================================================================
 # 1.0.0
 # Full Release

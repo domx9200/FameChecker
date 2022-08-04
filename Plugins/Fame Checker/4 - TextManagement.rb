@@ -53,7 +53,7 @@ module FameChecker
       return if !@sprites["infoBox"]
       return if !@sprites["infoBoxText"]
       x = @sprites["infoBox"].bitmap.width / 2 + 18
-      y = @textDrawPaddingReset + 4
+      y = 4#@textDrawPaddingReset + 4
       textArray = []
       2.times{ |i|
         textArray.push([text[i], x, y, 2, Color.new(0,0,0)])

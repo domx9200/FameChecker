@@ -1,8 +1,13 @@
 module FameChecker
   class FC
-    def createSprite(spriteName, activeFolder, fileName,  dir = "Graphics/Pictures/FameChecker")
+    def createSprite(spriteName, activeFolder = nil, fileName = nil,  dir = "Graphics/Pictures/FameChecker")
       @sprites[spriteName] = Sprite.new(@vp) if !@sprites[spriteName]
-      @sprites[spriteName].bitmap = Bitmap.new("#{dir}/#{activeFolder}/#{fileName}")
+      #puts("#{dir}/#{activeFolder}/#{fileName}")
+      if !activeFolder || !fileName
+        @sprites[spriteName].bitmap = Bitmap.new(512, 512)
+      else
+        @sprites[spriteName].bitmap = Bitmap.new("#{dir}/#{activeFolder}/#{fileName}")
+      end
     end
 
     def changeBitmap(spriteName, activeFolder, fileName, dir = "Graphics/Pictures/FameChecker")
@@ -181,11 +186,16 @@ module FameChecker
     # this function will be called whenever the big sprite needs to be changed, 
     # the create sprite will be skipped most of the time
     # The center point is set to make positioning really easy
-    def setBigSprite(spriteName, charFile, dir = "Graphics/Pictures/FameChecker", folder = "Big_Sprites")
-      self.createSprite(spriteName, folder, charFile, dir)
+    def setBigSprite(spriteName, folder = "Big_Sprites", charFile = nil, dir = "Graphics/Pictures/FameChecker")
+      if !charFile
+        self.createSprite(spriteName)
+      else
+        self.createSprite(spriteName, folder, charFile, dir)
+      end
       @sprites[spriteName].z = 3
       bitmap = @sprites[spriteName].bitmap
       self.setCenterPointXY(spriteName, bitmap.width / 2, bitmap.height / 2)
+      #puts("#{@sprites[spriteName].ox}, #{@sprites[spriteName].oy}")
       self.setXY(spriteName, @baseDeviceX + @deviceScreenCorner[0] + (@deviceScreenSize[0] / 2), @baseDeviceY + @deviceScreenCorner[1] + (@deviceScreenSize[1] / 2))
     end
 
