@@ -81,7 +81,9 @@ module FameChecker
 
       currFame = @namePosList[@currentPos]
       if currFame != "CANCEL"
-        self.changeBitmap("bigSprite", "Big_Sprites",  $PokemonGlobal.FameTargets[currFame]["fileName"]) 
+        self.changeBitmap("bigSprite", "Big_Sprites",  $PokemonGlobal.FameTargets[currFame]["fileName"])
+        bitmap = @sprites["bigSprite"].bitmap
+        self.setCenterPointXY("bigSprite", bitmap.width / 2, bitmap.height / 2)
       else
         self.clearBitmap("bigSprite")
       end
@@ -140,7 +142,9 @@ module FameChecker
               atBotEdge = false
             end
             if currFame != "CANCEL"
-              self.changeBitmap("bigSprite", "Big_Sprites",  $PokemonGlobal.FameTargets[currFame]["fileName"]) 
+              self.changeBitmap("bigSprite", "Big_Sprites",  $PokemonGlobal.FameTargets[currFame]["fileName"])
+              bitmap = @sprites["bigSprite"].bitmap
+              self.setCenterPointXY("bigSprite", bitmap.width / 2, bitmap.height / 2)
             else
               self.clearBitmap("bigSprite")
             end

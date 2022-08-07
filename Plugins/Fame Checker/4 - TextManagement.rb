@@ -65,7 +65,7 @@ module FameChecker
     def drawListText(y = nil)
       return if !@sprites["listText"] || !@sprites["listBox"]
       x = 0 + 18 # @baseListX + 18
-      y = -4 if y == nil # @currentListY
+      y = @currentListY + -4 if y == nil
       pos = 0
       textArray = []
       $PokemonGlobal.FameTargets.each{ |i, j|

@@ -1,7 +1,7 @@
 # FameChecker
  A module created for pokemon essentials that adds the Fame Checker from Fire Red and Leaf Green as an item. While this should be easy to install into your game, there are a few things that need to be noted. I will also have a list of things that I'd like to implement down the line as well. 
 
-Currently, it only works with version 19 or 19.1 of essentials as that is the newest version at the current time, I will most likely update this tool as the version of essentials also updates, possibly supporting older versions along the way.
+ for v20/v20.1 please go to [this fork](https://github.com/domx9200/FameChecker)
 
 ---
 ## Installation
@@ -42,13 +42,3 @@ end
  ```
 
 When giving the player the item, the function call from base Pokemon Essentials will be ``pbReceiveItem(:FAMECHECKER)``. If you at any point want to use the functions ``createFamousPerson`` and ``createFameInfo`` outside of this context it must be written as ``FameChecker.createFamousPerson`` or  ``FameChecker.createFameInfo``, all else being the same.
-
----
-## Future Updates
-I have a few things planned in the future of this project which range from improving the code quality to adding even more features.
-
-* [ ] Write a Python script to automate creation of famous people and their info NPCs
-* [ ] refactor the entire code base to be more easily maintainable, as it is currently very messy.
-* [ ] add a set of game maker functions to make creating fame info for the player character that can change based on the actions of the player
-
-If anybody has any other ideas for this tool, please suggest it in the issues tab, using the label *enchancement*

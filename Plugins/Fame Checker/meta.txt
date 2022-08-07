@@ -1,25 +1,43 @@
-Name    = Fame Checker
-Version = 1.0.0
-Website = https://github.com/domx9200/FameChecker
-Credits = domx9200
+Name       = Fame Checker
+Version    = 1.1.0
+Website    = https://github.com/domx9200/FameChecker/tree/Essentials-v19
+Credits    = domx9200
 
-#=====================================================================
-# Change log
-#=====================================================================
-# 1.0.0
-# Full Release
-#   First Completed build of the Fame Checker for Pokemon Essentials  
-#   Maintains everything that the original Fame Checker did within
-#       Pokemon Fire Red and Leaf Green plus a little extra
-#   Current Features:
-#       Adding Famous People at the discresion of the game maker
-#       Adding info for famous people at the discresion of the game maker
-#       Adding the item, as well as it's interface when used
-#       Adding functions to mark specific famous people as seen or met
-#       Adding functions to mark info for famous people as seen or heard
-#   Bonus Features:
-#       Variable Info per famous person
-#           You can have 0, or 2, or even 100 bits of info per person
-#           as I have implemented a page and placement system
-#           to make the system be just that much more open for use
-#           by the game makers
+#===========================================================================================================================#
+# Change log                                                                                                                #
+#===========================================================================================================================#
+# 1.1.0                                                                                                                     #
+# Update                                                                                                                    #
+#   Updated everything to work with v20 and v20.1. I do still intend to support v19 and v19.1 for the time being            #
+#   I will stop supporting versions as it reaches 3 versions behind, so v19 will stop being supported when v22 releases     #
+# Bug Fix                                                                                                                   #
+#   Fixed an error which causes the game to hang if you remove the starter file "OAK.png" and attempt to press select.      #
+#   This is due to a mistakenly hardcoded setup function which required "OAK.png" to be present. You are now free to remove #
+#   all default small and big sprite files.                                                                                 #
+#===========================================================================================================================#
+# 1.0.1                                                                                                                     #
+# Bug Fix                                                                                                                   #
+# 	Fixed the error that happens when you try to use the included functions before                                          #
+#		starting a new save file, now the code should be self correcting, and the user                                      #
+#		will need no special input.                                                                                         #
+# Please make sure not to overwrite the functions self.setupFamousPeople and self.setupFameInfo                             #
+#	when copying everything over, as they will be over-written if you dont.                                                 #
+#===========================================================================================================================#
+# 1.0.0                                                                                                                     #
+# Full Release                                                                                                              #
+#   First Completed build of the Fame Checker for Pokemon Essentials                                                        #
+#   Maintains everything that the original Fame Checker did within                                                          #
+#       Pokemon Fire Red and Leaf Green plus a little extra                                                                 #
+#   Current Features:                                                                                                       #
+#       Adding Famous People at the discresion of the game maker                                                            #
+#       Adding info for famous people at the discresion of the game maker                                                   #
+#       Adding the item, as well as it's interface when used                                                                #
+#       Adding functions to mark specific famous people as seen or met                                                      #
+#       Adding functions to mark info for famous people as seen or heard                                                    #
+#   Bonus Features:                                                                                                         #
+#       Variable Info per famous person                                                                                     #
+#           You can have 0, or 2, or even 100 bits of info per person                                                       #
+#           as I have implemented a page and placement system                                                               #
+#           to make the system be just that much more open for use                                                          #
+#           by the game makers                                                                                              #
+#===========================================================================================================================#

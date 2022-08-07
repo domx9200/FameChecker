@@ -45,7 +45,7 @@ module FameChecker
       @listPos = 0
       @baseListX = 15
       @baseListY = 46
-      @currentListY = @baseListY + @textDrawPaddingReset + 6
+      @currentListY = 0 #@baseListY + @textDrawPaddingReset + 6
 
       # info box values
       @baseInfoBoxX = 245
@@ -93,14 +93,17 @@ module FameChecker
       self.setBackground(0)
       self.setInfoBox
       self.setListBox
+
       bm = @sprites["infoBox"]
       self.createTextSprite("infoBoxText", bm.width, bm.height, -1)
       self.setXY("infoBoxText", @baseInfoBoxX - 20,@baseInfoBoxY)
+
       bm = @sprites["listBox"]
       self.createTextSprite("listText",  bm.width, bm.height, -1)
       self.setXY("listText", @baseListX, @baseListY)
+
       self.setDevice("device")
-      self.setBigSprite("bigSprite", "OAK.png")
+      self.setBigSprite("bigSprite")
       self.setDeviceBall("spinBall")
 
       self.drawListText()
