@@ -1,15 +1,21 @@
 # FameChecker
  A module created for pokemon essentials that adds the Fame Checker from Fire Red and Leaf Green as an item. While this should be easy to install into your game, there are a few things that need to be noted. I will also have a list of things that I'd like to implement down the line as well. 
 
-Currently, it only works with version 19 or 19.1 of essentials as that is the newest version at the current time, I will most likely update this tool as the version of essentials also updates, possibly supporting older versions along the way.
-
+Currently, I have a working version for versions 19, 19.1, 20, and 20.1. I will be maintaining all versions I create until they are 3 versions old, as such v19 will be deprecated as of v22 and v20 will be deprecated as of v23. to get to the README for v19 and v19.1 swap to [this fork](https://github.com/domx9200/FameChecker/tree/Essentials-v19)
 ---
 ## Installation
  most of installing this tool is drag and drop, all of the files in the Graphics and Plugins can be copied over to the root directory of your install of Pokemon Essentials. you do however need to add this line to your items.txt file within the PBS folder of your Pokemon Essentials install. 
 ```
-634,FAMECHECKER,Fame Checker, Fame Checkers,8,0,"A machine that allows you to see who people are talking about.",2,0,6,
+#-------------------------------
+[FAMECHECKER]
+Name = Fame Checker
+NamePlural = Fame Checkers
+Pocket = 8
+Price = 0
+FieldUse = Direct
+Flags = KeyItem
+Description = A machine that allows you to see who people are talking about.
 ```
-please keep in mind that the 634 must be changed to a number that isn't in use by your items.txt file, the value I have here is just the value expected when booting up a new copy of Pokemon Essentials.
 
 ---
 ## Usage
@@ -18,26 +24,26 @@ please keep in mind that the 634 must be changed to a number that isn't in use b
  #### Template usage
  ```ruby
 def self.setupFamousPeople()
-# template
-self.createFamousPerson(
-    "OAK", # name of famous person
-    "OAK.png", # name of big sprite file
-    true # deciding if the player has encountered the person in question
-)
-# can also be in the form of
-self.createFamousPerson("DAISY", "DAISY.png", true)
+    # template
+    self.createFamousPerson(
+        "OAK", # name of famous person
+        "OAK.png", # name of big sprite file
+        true # deciding if the player has encountered the person in question
+    )
+    # can also be in the form of
+    self.createFamousPerson("DAISY", "DAISY.png", true)
 end
 
 def self.setupFameInfo()
-# template
-self.createFameInfo(
-    "OAK", # name of famous person
-    "4.png",  # name of small sprite file
-    ["VERIDIAN CITY", "GYM SIGN"], # text to display within the box in the middle of the screen
-    ["Oak is an interesting man, he apparently created MISSINGNO!", "I get it, you're skeptical, but it's true, he really did!"], # text that displays when you press USE
-    "Did you hear about his secret experiment...", # the text that'll be displayed when hovering over
-    true # deciding if the player has learned this info
-)
+    # template
+    self.createFameInfo(
+        "OAK", # name of famous person
+        "4.png",  # name of small sprite file
+        ["VERIDIAN CITY", "GYM SIGN"], # text to display within the box in the middle of the screen
+        ["Oak is an interesting man, he apparently created MISSINGNO!", "I get it, you're skeptical, but it's true, he really did!"], # text that displays when you press USE
+        "Did you hear about his secret experiment...", # the text that'll be displayed when hovering over
+        true # deciding if the player has learned this info
+    )
 end
  ```
 

@@ -119,14 +119,6 @@ module FameChecker
     )
     # can also be in the form of
     self.createFamousPerson("DAISY", "DAISY.png", true)
-    self.createFamousPerson("DAISY1", "DAISY.png", true)
-    self.createFamousPerson("DAISY2", "DAISY.png", true)
-    self.createFamousPerson("DAISY3", "DAISY.png", true)
-    self.createFamousPerson("DAISY4", "DAISY.png", true)
-    self.createFamousPerson("DAISY5", "DAISY.png", true)
-    self.createFamousPerson("DAISY6", "DAISY.png", true)
-    self.createFamousPerson("DAISY7", "DAISY.png", true)
-    self.createFamousPerson("DAISY8", "DAISY.png", true)
   end
 
   # this function is where you place every call of createFameInfo

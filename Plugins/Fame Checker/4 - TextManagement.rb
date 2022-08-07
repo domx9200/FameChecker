@@ -52,7 +52,7 @@ module FameChecker
     def setInfoBoxText(text)
       return if !@sprites["infoBox"]
       return if !@sprites["infoBoxText"]
-      x = @sprites["infoBox"].bitmap.width / 2 + 18
+      x = @baseListX + (@sprites["infoBox"].bitmap.width / 2) #@sprites["infoBox"].bitmap.width / 2 + 18
       y = 4#@textDrawPaddingReset + 4
       textArray = []
       2.times{ |i|
@@ -65,14 +65,14 @@ module FameChecker
     def drawListText(y = nil)
       return if !@sprites["listText"] || !@sprites["listBox"]
       x = 0 + 18 # @baseListX + 18
-      y = -4 if y == nil # @currentListY
+      y = 6 + @currentListOffsetY if y == nil #-4 if y == nil # @currentListY
       pos = 0
       textArray = []
       $PokemonGlobal.FameTargets.each{ |i, j|
         if j["seen"]
           textArray.push([i.upcase, x, y, 0, pos != @currentPos ? @baseListTextColor : @selectListTextColor, pos != @currentPos ? @baseListTextShadow : @selectListTextShadow, 0]) 
           @namePosList[pos] = i
-          y += @sprites["listText"].bitmap.text_size(i).height + @textDrawPaddingReset + 14
+          y += @sprites["listText"].bitmap.text_size(i).height + 4 #@textDrawPaddingReset + 14
           pos += 1
         end
       }
@@ -93,8 +93,8 @@ module FameChecker
         return
       end
 
-      @currentListY -= (@sprites["listText"].bitmap.text_size("t").height + @textDrawPaddingReset + 14) if !up
-      @currentListY += (@sprites["listText"].bitmap.text_size("t").height + @textDrawPaddingReset + 14) if up
+      @currentListOffsetY -= (@sprites["listText"].bitmap.text_size("t").height + 4) if !up
+      @currentListOffsetY += (@sprites["listText"].bitmap.text_size("t").height + 4) if up
       self.drawListText()
     end
 
