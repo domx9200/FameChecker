@@ -42,3 +42,38 @@ end
  ```
 
 When giving the player the item, the function call from base Pokemon Essentials will be ``pbReceiveItem(:FAMECHECKER)``. If you at any point want to use the functions ``createFamousPerson`` and ``createFameInfo`` outside of this context it must be written as ``FameChecker.createFamousPerson`` or  ``FameChecker.createFameInfo``, all else being the same.
+
+additionally, there are a few functions that you want to be using when scripting for NPC's. ``FameChecker.hasEncountered`` is the function you want to use to set if the player has encountered a specific famous person and ``FameChecker.hasFoundInfo`` is the function you want to use to set if the player knows a specific bit of information. I encourage you to look at ``7 - gameMakerFunctions`` for more information.
+
+#### code representing these functions
+```ruby
+def self.hasEncountered(famousPersonName, hasMet = true)
+  FameChecker.checkSetup
+  FameChecker.runSetup
+
+  if !$PokemonGlobal.FameTargets[famousPersonName]
+    print("name input doesn't exist")
+    return
+  end
+  $PokemonGlobal.FameTargets[famousPersonName]["seen"] = hasMet
+end
+
+def self.hasFoundInfo(famousPersonName, infoNum, hasFound = true)
+  FameChecker.checkSetup
+  FameChecker.runSetup
+
+  if !$PokemonGlobal.FameTargets[famousPersonName]
+    print("name input doesn't exist")
+    return
+  end
+
+  if !$PokemonGlobal.FameInfo[famousPersonName][infoNum]
+    print("the number you input for the info of #{famousPersonName} doesn't exist.")
+  end
+  $PokemonGlobal.FameInfo[famousPersonName][infoNum]["seen"] = hasFound
+end
+```
+
+#### images showing usage
+![how to use FameChecker.hasEncountered](https://raw.githubusercontent.com/domx9200/FameChecker/main/screenshot.5.jpg)
+![how to use FameChecker.hadFoundInfo](https://raw.githubusercontent.com/domx9200/FameChecker/main/screenshot.6.jpg)
