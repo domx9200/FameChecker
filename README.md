@@ -47,9 +47,11 @@ def self.setupFameInfo()
 end
  ```
 
-When giving the player the item, the function call from base Pokemon Essentials will be ``pbReceiveItem(:FAMECHECKER)``. If you at any point want to use the functions ``createFamousPerson`` and ``createFameInfo`` outside of this context it must be written as ``FameChecker.createFamousPerson`` or  ``FameChecker.createFameInfo``, all else being the same.
+When giving the player the item, the function call from base Pokemon Essentials will be ``pbReceiveItem(:FAMECHECKER)``. If you at any point want to use the functions ``createFamousPerson()`` and ``createFameInfo()`` outside of this context it must be written as ``FameChecker.createFamousPerson()`` or  ``FameChecker.createFameInfo()``, all else being the same. 
 
-additionally, there are a few functions that you want to be using when scripting for NPC's. ``FameChecker.hasEncountered`` is the function you want to use to set if the player has encountered a specific famous person and ``FameChecker.hasFoundInfo`` is the function you want to use to set if the player knows a specific bit of information. I encourage you to look at ``7 - gameMakerFunctions`` for more information.
+If you don't want to use the item and would rather use it in a difference context, such as during a conversation or in another plugin, all you need to do is call the function ``FameChecker.create()``, this function was originally intended to be an internal function only, but it was brought to my attention that people want to use it in different contexts, Depending on feedback, I might rename this function when I work on the re-write to be more accurate to what it does.
+
+additionally, there are a few functions that you want to be using when scripting for NPC's. ``FameChecker.hasEncountered()`` is the function you want to use to set if the player has encountered a specific famous person and ``FameChecker.hasFoundInfo()`` is the function you want to use to set if the player knows a specific bit of information. I encourage you to look at ``7 - gameMakerFunctions`` for more information.
 
 #### code representing these functions
 ```ruby
