@@ -273,7 +273,7 @@ module FameChecker
             break if !@device.deviceIn
           elsif Input.trigger?(Input::USE)
             input = Input::USE
-            break if !@device.deviceIn and !@infoList.noElems
+            break if !@device.deviceIn and !@infoList.noElems or @fameList.getCurrentPosition == :CANCEL
           end
         }
         pbDisposeMessageWindow(msgBox)
@@ -283,21 +283,29 @@ module FameChecker
         when Input::UP
           ret = @fameList.shiftListUp()
           if ret != -1
-            currentFame = ret 
+            currentFame = ret
+            pbPlayDecisionSE
             @device.setDeviceSprite(currentFame)
             @infoList.setFamousPerson(currentFame, true)
           end
         when Input::DOWN
           ret = @fameList.shiftListDown()
           if ret != -1
-            currentFame = ret 
+            currentFame = ret
+            pbPlayDecisionSE
             @device.setDeviceSprite(currentFame)
             @infoList.setFamousPerson(currentFame)
           end
         when Input::USE
+          if @fameList.getCurrentPosition == :CANCEL
+            pbPlayCloseMenuSE
+            return :Close
+          end
+          pbPlayDecisionSE
           return :InfoList
         when Input::ACTION
           if !@device.deviceIn
+            pbPlayDecisionSE
             @background.setButtons([:cancelButton, :listSelectButton])
             msgBox = pbCreateMessageWindow()
             self.messageDisplay(msgBox, ""){
@@ -318,6 +326,7 @@ module FameChecker
             pbDisposeMessageWindow(msgBox)
             ballRotation = 0
           else
+            pbPlayCloseMenuSE
             return :Close
           end
         end
@@ -388,6 +397,7 @@ module FameChecker
 
         case input
         when Input::LEFT
+          pbPlayDecisionSE
           if changePage
             @infoList.changePageLeft()
             cutoff = @infoList.elementCount() > 3 ? (@infoList.elementCount() / 2.0).ceil - 1 : -1
@@ -395,6 +405,7 @@ module FameChecker
             @infoList.changePosition(@infoList.currentPosition - 1)
           end
         when Input::RIGHT
+          pbPlayDecisionSE
           if changePage
             @infoList.changePageRight()
             cutoff = @infoList.elementCount() > 3 ? (@infoList.elementCount() / 2.0).ceil - 1 : -1
@@ -402,9 +413,11 @@ module FameChecker
             @infoList.changePosition(@infoList.currentPosition + 1)
           end
         when Input::UP
+          pbPlayDecisionSE
           move = (@infoList.elementCount() / 2.0).ceil
           @infoList.changePosition(@infoList.currentPosition - move)
         when Input::DOWN
+          pbPlayDecisionSE
           move = (@infoList.elementCount() / 2.0).ceil
           if @infoList.currentPosition == cutoff and @infoList.elementCount == 5
             @infoList.changePosition(4)
@@ -413,6 +426,7 @@ module FameChecker
           end
         when Input::USE
           if infoElems[@infoList.currentElement()][:HasBeenSeen] and infoElems[@infoList.currentElement()][:SelectText]
+            pbPlayDecisionSE
             msgBox = pbCreateMessageWindow()
             infoElems[@infoList.currentElement()][:SelectText].each{ |line|
               self.messageDisplay(msgBox, line){
@@ -422,6 +436,7 @@ module FameChecker
             pbDisposeMessageWindow(msgBox)
           end
         when Input::BACK
+          pbPlayCloseMenuSE
           @@sprites[:SelectBox].visible = false
           @@sprites[:LeftArrow].visible = false
           @@sprites[:RightArrow].visible = false
