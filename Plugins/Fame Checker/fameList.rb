@@ -3,7 +3,7 @@ module FameChecker
     attr_reader :positionList
     attr_reader :currentPosition
     attr_reader :maximumPosition
-    
+
     include FameChecker
     def initialize()
       @@sprites[:list] = Sprite.new(@@vp)
@@ -56,8 +56,9 @@ module FameChecker
       y = 0
       pos = 0
       @positionList = []
-      $PokemonGlobal.FamousPeople.each { |name, values|
-        if values[:HasBeenSeen]
+      @@compiledData.each { |name, values|
+        seen = $PokemonGlobal.FamousPeople[name][:HasBeenSeen]
+        if seen
           textSize = @@sprites[:list].bitmap.text_size(values[:Name])
           pbDrawShadowText(@@sprites[:list].bitmap, x, y, textSize.width, textSize.height, values[:Name].upcase, pos != @currentPosition ? @baseListTextColor : @selectListTextColor, pos != @currentPosition ? @baseListTextShadow : @selectListTextShadow)
           @positionList.push(name)

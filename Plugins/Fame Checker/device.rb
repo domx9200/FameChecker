@@ -63,17 +63,17 @@ module FameChecker
     end
 
     def setDeviceSprite(famousPerson)
-      if not $PokemonGlobal.FamousPeople[famousPerson]
+      if not @@compiledData[famousPerson]
         @@sprites[:deviceSprite].bitmap.clear if @@sprites[:deviceSprite].bitmap
         return
       end
-      @@sprites[:deviceSprite].bitmap = Bitmap.new($PokemonGlobal.FamousPeople[famousPerson][:SpriteLocation])
+      @@sprites[:deviceSprite].bitmap = Bitmap.new(@@compiledData[famousPerson][:SpriteLocation])
       bitmap = @@sprites[:deviceSprite].bitmap
       @@sprites[:deviceSprite].ox = bitmap.width / 2
       @@sprites[:deviceSprite].oy = bitmap.height / 2
       offset = [0, 0]
-      if $PokemonGlobal.FamousPeople[famousPerson][:SpriteOffset]
-        offset = $PokemonGlobal.FamousPeople[famousPerson][:SpriteOffset]
+      if @@compiledData[famousPerson][:SpriteOffset]
+        offset = @@compiledData[famousPerson][:SpriteOffset]
       end
       @@sprites[:deviceSprite].x = @@sprites[:device].x + @deviceScreenCorner[0] + @deviceScreenSize[0] / 2 + offset[0]
       @@sprites[:deviceSprite].y = @@sprites[:device].y + @deviceScreenCorner[1] + @deviceScreenSize[1] / 2 + offset[1]

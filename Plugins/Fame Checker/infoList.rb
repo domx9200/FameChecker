@@ -8,7 +8,7 @@ module FameChecker
 
     include FameChecker
     def initialize()
-      @unknownLocation = "Graphics/Pictures/FameChecker/SmallSprites/Unkown64x64.png"
+      @unknownLocation = "Graphics/Pictures/FameChecker/SmallSprites/Unknown64x64.png"
       @noElems = false
 
       #---------------SELECT BOX---------------------------------------------------------------------
@@ -65,7 +65,7 @@ module FameChecker
     end
 
     def setFamousPerson(famousPerson, allClear = false)
-      if !$PokemonGlobal.FamousPeople[famousPerson] or !$PokemonGlobal.FamousPeople[famousPerson][:FameInfo]
+      if !@@compiledData[famousPerson] or !@@compiledData[famousPerson][:FameInfo]
         self.clearSprites()
         @@sprites[:SelectBox].visible = false
         @@sprites[:LeftArrow].visible = false
@@ -75,7 +75,7 @@ module FameChecker
         return 0
       end
       @noElems = false
-      @maxPages = ($PokemonGlobal.FamousPeople[famousPerson][:FameInfo].length / 6.0).ceil
+      @maxPages = (@@compiledData[famousPerson][:FameInfo].length / 6.0).ceil
       @currentInfoPerson = famousPerson
       @currentPage = 1
 
@@ -89,7 +89,7 @@ module FameChecker
     def changeVisibleElements()
       return -1 if @currentPage > @maxPages
       @visibleElements = []
-      range = @currentPage < @maxPages ? 6 : $PokemonGlobal.FamousPeople[@currentInfoPerson][:FameInfo].length % 6
+      range = @currentPage < @maxPages ? 6 : @@compiledData[@currentInfoPerson][:FameInfo].length % 6
       range = 6 if range == 0
       @visibleElements.fill(0...range) {|i| i + 6 * (@currentPage - 1)}
     end
@@ -113,10 +113,11 @@ module FameChecker
     end
 
     #---------SPRITE FUNCTIONS--------------------------------
-    def createInfoSprites(infoArray)
+    def createInfoSprites()
       i = 0
-      infoArray.each { |element|
-        if element[:HasBeenSeen]
+      @visibleElements.each { |pos|
+        if $PokemonGlobal.FamousPeople[@currentInfoPerson][:FameInfo][pos] == true
+          element = @@compiledData[@currentInfoPerson][:FameInfo][pos]
           frameSize = element[:FrameSize]
           framesToShow = element[:FramesToShow]
           @@sprites["Info#{i}".to_sym] = InfoSprite.new(element[:SpriteLocation], element[:NumFrames], frameSize[0], frameSize[1],
@@ -126,20 +127,32 @@ module FameChecker
         end
         i += 1
       }
+      # infoArray.each { |element|
+      #   if element[:HasBeenSeen]
+      #     frameSize = element[:FrameSize]
+      #     framesToShow = element[:FramesToShow]
+      #     @@sprites["Info#{i}".to_sym] = InfoSprite.new(element[:SpriteLocation], element[:NumFrames], frameSize[0], frameSize[1],
+      #                                                   element[:FrameSkip], framesToShow[0], framesToShow[1], @@vp)
+      #   else
+      #     @@sprites["Info#{i}".to_sym] = InfoSprite.new(@unknownLocation, 1, 64, 64, 0, 0, 0, @@vp)
+      #   end
+      #   i += 1
+      # }
     end
-    
+
     def displayInfoSprites(currentPos = 0, allClear = false)
-      return -1 if @currentInfoPerson == nil or !$PokemonGlobal.FamousPeople[@currentInfoPerson]
-      return 0 if !$PokemonGlobal.FamousPeople[@currentInfoPerson][:FameInfo] or $PokemonGlobal.FamousPeople[@currentInfoPerson][:FameInfo].length == 0
-      infoElem = $PokemonGlobal.FamousPeople[@currentInfoPerson][:FameInfo]
+      return -1 if @currentInfoPerson == nil or !@@compiledData[@currentInfoPerson]
+      return 0 if !@@compiledData[@currentInfoPerson][:FameInfo] or @@compiledData[@currentInfoPerson][:FameInfo].length == 0
+      infoElem = @@compiledData[@currentInfoPerson][:FameInfo]
 
       self.clearSprites()
+      self.createInfoSprites()
 
-      input = []
-      @visibleElements.each{ |i|
-        input.push(infoElem[i])
-      }
-      self.createInfoSprites(input)
+      # input = []
+      # @visibleElements.each{ |i|
+      #   input.push(infoElem[i])
+      # }
+      # self.createInfoSprites(input)
       case @visibleElements.length
       when 1
         self.displayOneInfo()
@@ -157,7 +170,7 @@ module FameChecker
       if self.changePosition(currentPos, allClear) == -1
         self.changePosition(0, allClear)
       end
-      
+
       return @visibleElements.length
     end
 
@@ -268,13 +281,13 @@ module FameChecker
 
     #--------MIDDLE TEXT FUNCTIONS---------------------
     def updateMiddleText()
-      fame = $PokemonGlobal.FamousPeople[@currentInfoPerson]
+      fame = @@compiledData[@currentInfoPerson]
       return -1 if fame == nil
       elem = fame[:FameInfo][self.currentElement]
       return -1 if elem == nil# or elem[:MiddleScreenText] == nil
       @@sprites[:MidText].bitmap.clear
       return -1 if elem[:MiddleScreenText] == nil
-      return 0 if !elem[:HasBeenSeen]
+      return 0 if !$PokemonGlobal.FamousPeople[@currentInfoPerson][:FameInfo][self.currentElement]
       startingXPadding = 104
       x = 0 + startingXPadding
       y = 0

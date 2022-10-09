@@ -1,6 +1,8 @@
 # add the FamousPeople element to the save data
 class PokemonGlobalMetadata
   attr_accessor :FamousPeople
+  attr_accessor :FameTargets
+  attr_accessor :FameInfo
 
   alias fame_checker_ini initialize
   def initialize
@@ -8,7 +10,7 @@ class PokemonGlobalMetadata
     @FamousPeople = {}
   end
 end
-  
+
 # create the use item element so that the item proper can be used if wanted
 ItemHandlers::UseFromBag.add(:FAMECHECKER, proc { |item|
   next FameChecker.startFameChecker ? 1 : 0
@@ -17,11 +19,57 @@ ItemHandlers::UseFromBag.add(:FAMECHECKER, proc { |item|
 module FameChecker
   @@vp = nil
   @@sprites = {}
+  @@compiledData = load_data("Data/fame_targets.dat") rescue {}
+  @@compiledThisLaunch = false
+  @@reloaded = false
 
   def self.cleanup()
     @@vp.dispose
     @@vp = nil
     pbDisposeSpriteHash(@@sprites)
+  end
+
+  def self.createSaveHash()
+    @@compiledData.each { |key, val|
+      if not $PokemonGlobal.FamousPeople[key]
+        $PokemonGlobal.FamousPeople[key] = {}
+        hash = $PokemonGlobal.FamousPeople[key]
+
+        hash[:HasBeenSeen] = val[:HasBeenSeen]
+        hash[:Complete] = val[:Complete]
+      end
+      hash = $PokemonGlobal.FamousPeople[key]
+
+      next if not val[:FameInfo]
+      if not hash[:FameInfo]
+        hash[:FameInfo] = []
+        for elem in val[:FameInfo]
+          hash[:FameInfo].push(elem[:HasBeenSeen])
+        end
+      else
+        if hash[:FameInfo].length < val[:FameInfo].length
+          pos = hash[:FameInfo].length
+          for i in pos...val[:FameInfo].length
+            hash[:FameInfo].push(val[:FameInfo][i][:HasBeenSeen])
+            hash[:Complete][1] += 1
+            hash[:Complete][0] += 1 if val[:FameInfo][i][:HasBeenSeen] == true
+          end
+        elsif hash[:FameInfo].length > val[:FameInfo].length
+          for i in 0...(hash[:FameInfo].length - val[:FameInfo].length)
+            tf = hash[:FameInfo].pop
+            hash[:Complete][0] -= 1 if tf == true
+            hash[:Complete][1] -= 1
+          end
+        end
+
+        for i in 0...hash[:FameInfo].length
+          if hash[:FameInfo][i] != true and val[:FameInfo][i][:HasBeenSeen] == true
+            hash[:FameInfo][i] = val[:FameInfo][i][:HasBeenSeen]
+            hash[:Complete][0] += 1
+          end
+        end
+      end
+    }
   end
 
   # I was planning on cutting this down as there is a lot of things in it that I personally
@@ -310,3 +358,15 @@ module FameChecker
     return ret
   end
 end
+
+module Compiler
+  class << Compiler
+    alias compile_all_fame_checker compile_all
+  end
+
+  def self.compile_all(mustCompile)
+    compile_all_fame_checker(mustCompile) { |msg| pbSetWindowText(msg); echoln(msg) }
+    FameChecker.compile()
+  end
+end
+
