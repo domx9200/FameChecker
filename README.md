@@ -108,7 +108,7 @@ FameInfo = {
 	HoverText = Did you hear about his secret experiment...?
 	SelectText = "Oak is an interesting man, he apparently created MISSINGNO!", "I get it, you're skeptical, but it's true, he really did!"
 
-  [RUNNER]
+  	[RUNNER]
 	SpriteLocation = Graphics/Characters/boy_run.png
 	HasBeenSeen = true
 	IsAnimated = true # IsAnimated is all that I need for this one, as it is a standard 16 frame file
@@ -116,13 +116,13 @@ FameInfo = {
 	HoverText = Did you hear about his secret experiment...?
 	SelectText = "Oak is an interesting man, he apparently created MISSINGNO!", "I get it, you're skeptical, but it's true, he really did!"
 
-  [RUNNER2] # must be unique
+  	[RUNNER2] # must be unique
 	SpriteLocation = Graphics/Characters/boy_run.png
 	HasBeenSeen = true
 	Frames = 16 # IsAnimated will handle all of this without needing to be input
-    FrameSize = 32, 48 # however this is still possible
-    FrameSkip = 4
-    FramesToShow = 0, 3
+    	FrameSize = 32, 48 # however this is still possible
+    	FrameSkip = 4
+    	FramesToShow = 0, 3
 	MiddleScreenText = CITY, GYM SIGN
 	HoverText = Did you hear about his secret experiment...?
 	SelectText = "Oak is an interesting man, he apparently created MISSINGNO!", "I get it, you're skeptical, but it's true, he really did!"
