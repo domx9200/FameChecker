@@ -1,0 +1,83 @@
+#-------------------------------------------------
+# input options, famous person:
+# [Name], this is required for creating new people, each must be unique
+# Name = string, not required, can pull from [Name]
+# HasBeenSeen = boolean, not required, defaults false
+# SpriteLocation = string(file location), required and it needs to lead to an actual file
+# SpriteOffset = Int, Int, not required, defaults 0, 0
+# FameInfo = {, not required, however is necessary if you want to also put in fame info.
+#	you must end this section with } on a new line
+#
+# input options, famous info
+# [Name], this is required for creating new pieces of info, each must be unique
+# SpriteLocation = string(file location), required and it needs to lead to an actual file
+# HasBeenSeen = boolean, not required, defaults false
+# IsAnimated = boolean, not required, defaults false
+# Frames = positive int, not required, defaults to 0 or 16 based on if IsAnimated is true or not
+# FramesToShow = positive int, positive int, not required, defaults to 0, 0 or 0, 3 based on if IsAnimated is true or not
+# FrameSkip = positive int, not required, defaults to 0 or 4 based on if IsAnimated is true or not
+# FrameSize = positive int, positive int, not required, either is the whole file size if IsAnimated is false, and is equal to the size / sqrt(Frames).ceil() ex => Frames = 15, sqrt(Frames).ceil() = 4
+# MiddleScreenText = string, string, not required, defaults to "", ""
+# HoverText = string, not required, defaults to ""
+# SelectText = any number of strings, not required, defaults to ""
+#
+# Since everything is comma seperated, make sure you use quotes your sentences if you want to include , within your text
+# HoverText doesn't need to be in quotes no matter if you include , in it
+#-------------------------------------------------
+[OAK]
+Name = Oak
+HasBeenSeen = true
+SpriteLocation = Graphics/Pictures/FameChecker/DeviceSprites/OAK.png
+SpriteOffset = -2, 0
+FameInfo = {
+	[EXPERIMENT]
+	SpriteLocation = Graphics/Pictures/FameChecker/SmallSprites/GymSign.png
+	HasBeenSeen = false
+	MiddleScreenText = VERIDIAN CITY, GYM SIGN
+	HoverText = Did you hear about his secret experiment...?
+	SelectText = "Oak is an interesting man, he apparently created MISSINGNO!", "I get it, you're skeptical, but it's true, he really did!" 
+#--------------------------------------------
+	[EXPERIMENT2]
+	SpriteLocation = Graphics/Pictures/FameChecker/SmallSprites/4.png
+	HasBeenSeen = true
+	MiddleScreenText = CITY, GYM SIGN
+	HoverText = Did you hear, about his secret experiment...? # just to show i'm not lying
+	SelectText = "Oak is an interesting man, he apparently created MISSINGNO!", "I get it, you're skeptical, but it's true, he really did!" # remove the quotes here to see how seperated the text becomes
+#--------------------------------------------
+	[RUNNER]
+	SpriteLocation = Graphics/Characters/boy_run.png
+	HasBeenSeen = true
+	IsAnimated = true
+	MiddleScreenText = CITY, GYM SIGN
+	HoverText = Did you hear about his secret experiment...?
+	SelectText = "Oak is an interesting man, he apparently created MISSINGNO!", "I get it, you're skeptical, but it's true, he really did!"
+}
+#-------------------------------------------------
+[DAISY]
+Name = Daisy
+SpriteLocation = Graphics/Pictures/FameChecker/DeviceSprites/DAISY.png
+HasBeenSeen = true
+FameInfo = {
+	[EXPERIMENT]
+	SpriteLocation = Graphics/Pictures/FameChecker/SmallSprites/GymSign.png
+	HasBeenSeen = True
+	Frames = 1
+	FramesToShow = 0, 0
+	FrameSkip = 0
+	FrameSize = 64, 64
+	MiddleScreenText = VERIDIAN CITY, GYM SIGN
+	HoverText = Did you hear about his secret experiment...?
+	SelectText = "Oak is an interesting man, he apparently created MISSINGNO!", "I get it, you're skeptical, but it's true, he really did!"
+#--------------------------------------------
+	[EXPERIMENT2]
+	SpriteLocation = Graphics/Pictures/FameChecker/SmallSprites/4.png
+	HasBeenSeen = true
+	Frames = 1
+	FramesToShow = 0, 0
+	FrameSkip = 0
+	FrameSize = 26, 38
+	MiddleScreenText = VERIDIAN, GYM SIGN
+	HoverText = Did you hear about his secret experiment...?
+	SelectText = "Oak is an interesting man, he apparently created MISSINGNO!", "I get it, you're skeptical, but it's true, he really did!"
+}
+#-------------------------------------------------
