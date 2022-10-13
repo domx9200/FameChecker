@@ -1,11 +1,33 @@
 Name       = Fame Checker
-Version    = 1.1.0
+Version    = 2.0.0
 Essentials = 20.1
 Website    = https://github.com/domx9200/FameChecker
 Credits    = domx9200
 
 #===========================================================================================================================#
 # Change log                                                                                                                #
+#===========================================================================================================================#
+# 2.0.0																														#
+# Rewrite																													#
+#   I've done a complete rewrite of the plugin, which includes seperating everything out into their respective classes      #
+#	fixes up a lot of the jankiness of the original, and further cleaned up the code bloat.									#
+#	Additionally, cleaning up the code will make it much easier moving foward to make bug fixes and add new features		#
+#	Since I updated the save system, I have also added a conversion system so that previous versions don't cause issues		#
+# Update																													#
+#	Lots of updates in this version																							#
+#	The Info Sprites are now able to be animated																			#
+#		In addition to that, I made it so that you can grab files from anywhere rather than the specific location			#
+#		This is also true for the Device Sprites																			#
+#	A lot of the user functions have been renamed to better reflect what they are intended to do							#
+#	A new game switch was added to track the completion of all of the info within the FameChecker, default number is 2765	#
+#		If you want to swap the number please just do so at the top of the userFunctions.rb file							#
+#		the way to access it is FameChecker.FAME_SWITCH																		#
+#	The biggest update is the introduction of PBS compiling. 																#
+#		This was a majority of my efforts when I was creating the updates. I have tested it thouroughly						#
+#		however, please take care to format everything as it is shown, as I may have missed something. If I did				#
+#		and you have found it, I would love to know.																		#
+#		All of the info for it is on the Github, which is linked above, or within the PBS file itself						#
+# User guide will be on Github, or within the included readme.md file. You should be able to open it like a txt document	#
 #===========================================================================================================================#
 # 1.1.0                                                                                                                     #
 # Update                                                                                                                    #
