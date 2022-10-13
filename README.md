@@ -58,6 +58,8 @@ def self.fameStatus?(famousPerson)
 def self.infoStatus?(famousPerson, info)
 ```
 
+additionaly, I have created a game switch with the default value of 2765. you can access it through `FameChecker.FAME_SWITCH`. If you want to modify this value, you can do so within **userFunctions.rb**.
+
 ### Inputting PBS Information
 
 There is a bunch of different elements to talk about when it comes to inputting information.
