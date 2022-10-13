@@ -13,6 +13,7 @@ Credits    = domx9200
 #	fixes up a lot of the jankiness of the original, and further cleaned up the code bloat.									#
 #	Additionally, cleaning up the code will make it much easier moving foward to make bug fixes and add new features		#
 #	Since I updated the save system, I have also added a conversion system so that previous versions don't cause issues		#
+#		Conversion of bits of info is done solely by position, so ensure that all bits of info are in the same positions	#
 # Update																													#
 #	Lots of updates in this version																							#
 #	The Info Sprites are now able to be animated																			#
