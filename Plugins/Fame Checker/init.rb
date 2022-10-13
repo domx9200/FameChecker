@@ -34,11 +34,11 @@ module FameChecker
       if not $PokemonGlobal.FamousPeople[key]
         $PokemonGlobal.FamousPeople[key] = {}
         hash = $PokemonGlobal.FamousPeople[key]
-
         hash[:HasBeenSeen] = val[:HasBeenSeen]
         hash[:Complete] = val[:Complete]
       end
       hash = $PokemonGlobal.FamousPeople[key]
+      hash[:HasBeenSeen] = val[:HasBeenSeen] if val[:HasBeenSeen] == true
 
       next if not val[:FameInfo]
       if not hash[:FameInfo]
@@ -70,6 +70,29 @@ module FameChecker
         end
       end
     }
+
+    $PokemonGlobal.FamousPeople.each_key { |key|
+      if not @@compiledData[key]
+        $PokemonGlobal.FamousPeople.delete(key)
+      end
+    }
+  end
+
+  def self.completed?()
+    $PokemonGlobal.FamousPeople.each { |key, hash|
+      return false if hash[:HasBeenSeen] == false
+      return false if hash[:Complete][0] != hash[:Complete][1]
+    }
+    return true
+  end
+
+  def self.ensureCompiledData()
+    return if @@reloaded == true
+    @@compiledData = load_data("Data/fame_targets.dat") rescue {} if @@compiledThisLaunch
+    self.createSaveHash() if @@compiledThisLaunch or $PokemonGlobal.FamousPeople.length == 0
+    self.convertOldSave()
+    $game_switches[FAME_SWITCH] = self.completed?()
+    @@reloaded = true
   end
 
   # I was planning on cutting this down as there is a lot of things in it that I personally
@@ -356,6 +379,10 @@ module FameChecker
       end
     end
     return ret
+  end
+
+  def self.FAME_SWITCH()
+    return FAME_SWITCH
   end
 end
 

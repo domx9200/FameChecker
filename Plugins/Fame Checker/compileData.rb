@@ -35,6 +35,7 @@ module FameChecker
       puts("FameChecker data compiled successfully.")
       @@compiledThisLaunch = true
     end
+    pbSetWindowText(nil)
   end
 
   def self.seperateCommaValues(str, type)
@@ -175,11 +176,14 @@ module FameChecker
         if m
           if onFame
             self.ensureRequiredData(data, currentFame) if currentFame
+            raise _INTL("#{m[1].to_sym} already exists, having multiple entries will cause major problems") if data[m[1].to_sym] != nil
             data[m[1].to_sym] = {}
             currentFame = m[1].to_sym
             data[currentFame][:Complete] = [0, 0] if !data[currentFame][:Complete]
+            data[currentFame][:FameLookup] = {}
           else
             self.ensureInfoSizeData(currentFame, currentHash, currentInfo) if currentHash
+            raise _INTL("#{m[1].to_sym} already exists for #{currentFame},\nhaving multiple of the same will cause major problems") if data[currentFame][:FameLookup][m[1].to_sym] != nil
             data[currentFame][:Complete][1] += 1
             data[currentFame][:FameInfo] = [] if !data[currentFame][:FameInfo]
             data[currentFame][:FameInfo].push({})

@@ -23,6 +23,7 @@ module FameChecker
       if oldInfo[oldName]
         smaller = oldInfo[oldName].length < val[:FameInfo].length ? oldInfo[oldName].length : val[:FameInfo].length
         for i in 0...smaller
+          val[:Complete][0] += 1 if val[:FameInfo][i] == false and oldInfo[oldName][i]["seen"] == true
           val[:FameInfo][i] = oldInfo[oldName][i]["seen"] if oldInfo[oldName][i]["seen"] == true
         end
       end
