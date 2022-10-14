@@ -90,7 +90,7 @@ module FameChecker
     return if @@reloaded == true
     $PokemonGlobal.FamousPeople = {} if not $PokemonGlobal.FamousPeople
     @@compiledData = load_data("Data/fame_targets.dat") rescue {} if @@compiledThisLaunch
-    self.createSaveHash() if @@compiledThisLaunch or $PokemonGlobal.FamousPeople.length == 0
+    self.createSaveHash()
     self.convertOldSave()
     $game_switches[FAME_SWITCH] = self.completed?()
     @@reloaded = true
