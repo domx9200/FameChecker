@@ -144,4 +144,6 @@ FameInfo = {
 }
 ```
 
+I have also included a variable within **userFunctions.rb** called COMPILE_FOLDER that you can change if you would like the PBS files to be in a different folder.
+
 #### If There are any questions or bug reports, please don't hesitate to shoot me a message on [Relic Castle](https://reliccastle.com/members/13920/) or report a bug on the issues tab
