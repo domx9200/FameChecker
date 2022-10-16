@@ -20,19 +20,22 @@ module FameChecker
   }
 
   def self.compile(mustCompile = false)
-    return if !$DEBUG or not safeIsDirectory?("PBS/FameChecker")
-    pbSetWindowText("Compiling FameChecker data")
+    return if !$DEBUG or not safeIsDirectory?(COMPILE_FOLDER)
+    pbSetWindowText("Compiling Fame Checker data")
     refresh = mustCompile
     refresh = true if !safeExists?("Data/fame_targets.dat")
     refresh = true if Input.press?(Input::CTRL)
-    refresh = true if !refresh and safeExists?("PBS/FameChecker/fame_targets.txt") and
-      File.mtime("PBS/FameChecker/fame_targets.txt") > File.mtime("Data/fame_targets.dat")
+    refresh = true if !refresh and safeExists?("#{COMPILE_FOLDER}/fame_targets.txt") and
+      File.mtime("#{COMPILE_FOLDER}/fame_targets.txt") > File.mtime("Data/fame_targets.dat")
 
     if refresh
-      echoln "Compiling FameChecker data...\n"
+      echoln "Compiling Fame Checker data...\n"
       data = self.compile_Fame_Targets()
+      if not data
+        raise _INTL("Compilation of Fame Checker data failed, fame_targets.txt may not exist or #{COMPILE_FOLDER} may not exist.")
+      end
       save_data(data, "Data/fame_targets.dat")
-      puts("FameChecker data compiled successfully.")
+      puts("Fame Checker data compiled successfully.")
       @@compiledThisLaunch = true
     end
     pbSetWindowText(nil)
@@ -158,7 +161,7 @@ module FameChecker
   end
 
   def self.compile_Fame_Targets()
-    return nil if !safeExists?("PBS/FameChecker/fame_targets.txt")
+    return nil if !safeExists?("#{COMPILE_FOLDER}/fame_targets.txt")
     data = {}
     onFame = true
     currentFame = nil
@@ -166,7 +169,7 @@ module FameChecker
     currentInfo = nil
     lineNo = 0
 
-    File.open("PBS/FameChecker/fame_targets.txt", "r") do |file|
+    File.open("#{COMPILE_FOLDER}/fame_targets.txt", "r") do |file|
       for line in file.readlines()
         lineNo += 1
         line = Compiler::prepline(line)
@@ -215,7 +218,6 @@ module FameChecker
         end
       end
     end
-
     return data
   end
 end

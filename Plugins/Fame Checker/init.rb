@@ -19,8 +19,7 @@ ItemHandlers::UseFromBag.add(:FAMECHECKER, proc { |item|
 module FameChecker
   @@vp = nil
   @@sprites = {}
-  @@compiledData = load_data("Data/fame_targets.dat") rescue {}
-  @@compiledThisLaunch = false
+  @@compiledData = nil
   @@reloaded = false
 
   def self.cleanup()
@@ -89,7 +88,7 @@ module FameChecker
   def self.ensureCompiledData()
     return if @@reloaded == true
     $PokemonGlobal.FamousPeople = {} if not $PokemonGlobal.FamousPeople
-    @@compiledData = load_data("Data/fame_targets.dat") rescue {} if @@compiledThisLaunch
+    @@compiledData = load_data("Data/fame_targets.dat") rescue {}
     self.createSaveHash()
     self.convertOldSave()
     $game_switches[FAME_SWITCH] = self.completed?()
