@@ -1,10 +1,30 @@
 Name       = Fame Checker
-Version    = 2.0.0
+Version    = 2.0.3
 Website    = https://github.com/domx9200/FameChecker/tree/Essentials-v19
 Credits    = domx9200
 
 #===========================================================================================================================#
 # Change log                                                                                                                #
+#===========================================================================================================================#
+# 2.0.3																														#
+# Bug Fix																													#
+#	While not exactly a bug, I modified how the code loads the compiled data as to remove the error message on first launch	#
+# Update																													#
+#	Added a variable within userFunctions.rb so that you can change the folder of the PBS file								#
+#		Small updates to the compiler to account for this																	#
+#===========================================================================================================================#
+# 2.0.2																														#
+# Bug Fix																													#
+#	Yet another important bug to fix was found. The Save parity was broken because I wanted to limit updating				#
+#		to reduce processing time, however doing that means that the save parity would never update when a player			#
+#		launches the game, basically the save parity only updated when compiled, which doesn't help in the end				#
+#		so I removed the extra guards, meaning it will run at least once per launch, keep in mind this might result in		#
+#		slight lag if you have a ton of data																				#
+#===========================================================================================================================#
+# 2.0.1																														#
+# Bug Fix																													#
+#	Fixed an issue where old saves would crash every time the program was used due to the save file not existing			#
+#		Due to the nature of it being a somewhat critical error, I pushed this as an update without any other modifications	#
 #===========================================================================================================================#
 # 2.0.0																														#
 # Rewrite																													#
