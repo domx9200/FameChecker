@@ -11,10 +11,15 @@ class PokemonGlobalMetadata
   end
 end
 
-# create the use item element so that the item proper can be used if wanted
+# create the use item element so that the item properly can be used if wanted
 ItemHandlers::UseFromBag.add(:FAMECHECKER, proc { |item|
   next FameChecker.startFameChecker ? 1 : 0
 })
+
+# create the use item element so that the item can be used from the favorite menu
+ItemHandlers::UseInField.add(:FAMECHECKER, proc{ |item|
+  next FameChecker.startFameChecker ? 1 : 0
+  })
 
 module FameChecker
   @@vp = nil
@@ -35,38 +40,28 @@ module FameChecker
         hash = $PokemonGlobal.FamousPeople[key]
         hash[:HasBeenSeen] = val[:HasBeenSeen]
         hash[:Complete] = val[:Complete]
+        hash[:FameLookup] = val[:FameLookup]
       end
       hash = $PokemonGlobal.FamousPeople[key]
       hash[:HasBeenSeen] = val[:HasBeenSeen] if val[:HasBeenSeen] == true
+      hash[:FameLookup] = val[:FameLookup] if not hash[:FameLookup]
 
       next if not val[:FameInfo]
       if not hash[:FameInfo]
-        hash[:FameInfo] = []
-        for elem in val[:FameInfo]
-          hash[:FameInfo].push(elem[:HasBeenSeen])
-        end
+        hash[:FameInfo] = Array.new(val[:FameInfo].length){|i| val[:FameInfo][i][:HasBeenSeen]}
       else
-        if hash[:FameInfo].length < val[:FameInfo].length
-          pos = hash[:FameInfo].length
-          for i in pos...val[:FameInfo].length
-            hash[:FameInfo].push(val[:FameInfo][i][:HasBeenSeen])
-            hash[:Complete][1] += 1
-            hash[:Complete][0] += 1 if val[:FameInfo][i][:HasBeenSeen] == true
+        newFameInfo = Array.new(val[:FameInfo].length) {|i| val[:FameInfo][i][:HasBeenSeen]} # generate a new FameInfo for the current famous person
+        hash[:Complete] = val[:Complete] # Set the default complete variable
+        hash[:FameLookup].each { |k, value| # run through the entirety of the hash's original fame lookup to see if keys match
+          next if not val[:FameLookup][k] # skip if there isn't a key within the compiled data, that element was deleted
+          tf = hash[:FameInfo][value] # get the save data seen value
+          if tf == true and newFameInfo[val[:FameLookup][k]] == false # if the save data value is true and the compiled data is false
+            hash[:Complete][0] += 1 # increase the found value by 1
+            newFameInfo[val[:FameLookup][k]] = true # and set the value to true
           end
-        elsif hash[:FameInfo].length > val[:FameInfo].length
-          for i in 0...(hash[:FameInfo].length - val[:FameInfo].length)
-            tf = hash[:FameInfo].pop
-            hash[:Complete][0] -= 1 if tf == true
-            hash[:Complete][1] -= 1
-          end
-        end
-
-        for i in 0...hash[:FameInfo].length
-          if hash[:FameInfo][i] != true and val[:FameInfo][i][:HasBeenSeen] == true
-            hash[:FameInfo][i] = val[:FameInfo][i][:HasBeenSeen]
-            hash[:Complete][0] += 1
-          end
-        end
+        }
+        hash[:FameInfo] = newFameInfo # update the fame info to the new fame info
+        hash[:FameLookup] = val[:FameLookup] # and update the fame lookup for the next compile
       end
     }
 

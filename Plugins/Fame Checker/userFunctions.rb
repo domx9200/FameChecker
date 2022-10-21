@@ -14,8 +14,11 @@ module FameChecker
 
   # Use this function to set whether a famous person has been seen.
   # Generally, you want to use this function when the player first hears about a person or talks to that person.
+  # famousPerson => Symbol or String, if it is a string, then it gets converted to a symbol
+  # FameChecker.setFameSeen("OAK", true) translates to FameChecker.setFameSeen(:OAK, true)
   def self.setFameSeen(famousPerson, seen = true)
     self.ensureCompiledData()
+    famousPerson = famousPerson.to_sym if famousPerson.is_a?(String)
     if not $PokemonGlobal.FamousPeople[famousPerson]
       puts("#{famousPerson} doesn't exist")
       return
@@ -25,10 +28,15 @@ module FameChecker
   end
 
   # Use this function to set whether an info piece of a famous person has been seen
-  # info can be either an Integer, representing a position,
-  # or a Symbol, representing the name givin in the pbs file. example => :EXPERIMENT
+  # famousPerson => Symbol or String, if it is a string, then it gets converted to a symbol
+  # info => Integer, (Symbol or String), if it is a string, then it gets converted to a symbol
+  #   If it is a String or Symbol, it will get the position from a lookup table
+  #   If it is an integer, it will just use that location
+  # FameChecker.setFameInfoSeen("OAK", "EXPERIMENT", true) translates to FameChecker.setFameInfoSeen(:OAK, :EXPERIMENT, true)
   def self.setFameInfoSeen(famousPerson, info, seen = true)
     self.ensureCompiledData()
+    famousPerson = famousPerson.to_sym if famousPerson.is_a?(String)
+    info = info.to_sym if info.is_a?(String)
     if not $PokemonGlobal.FamousPeople[famousPerson]
       puts("#{famousPerson} doesn't exist")
       return
@@ -62,8 +70,11 @@ module FameChecker
   end
 
   # Use this function to see if a famous person has been seen
+  # famousPerson => Symbol or String, if it is a string, then it gets converted to a symbol
+  # FameChecker.fameStatus?("OAK") translates to FameChecker.fameStatus?(:OAK)
   def self.fameStatus?(famousPerson)
     self.ensureCompiledData()
+    famousPerson = famousPerson.to_sym if famousPerson.is_a?(String)
     if not $PokemonGlobal.FamousPeople[famousPerson]
       puts("#{famousPerson} doesn't exist")
       return false
@@ -72,10 +83,15 @@ module FameChecker
   end
 
   # Use this function to see if a specific piece of info on a famous person has been seen.
-  # info can be either an Integer, representing a position,
-  # or a Symbol, representing the name givin in the pbs file. example => :EXPERIMENT
+  # famousPerson => Symbol or String, if it is a string, then it gets converted to a symbol
+  # info => Integer, (Symbol or String), if it is a string, then it gets converted to a symbol
+  #   If it is a String or Symbol, it will get the position from a lookup table
+  #   If it is an integer, it will just use that location
+  # FameChecker.infoStatus?("OAK", "EXPERIMENT") translates to FameChecker.infoStatus?(:OAK, :EXPERIMENT)
   def self.infoStatus?(famousPerson, info)
     self.ensureCompiledData()
+    famousPerson = famousPerson.to_sym if famousPerson.is_a?(String)
+    info = info.to_sym if info.is_a?(String)
     if not $PokemonGlobal.FamousPeople[famousPerson]
       puts("#{famousPerson} doesn't exist")
       return false
@@ -96,5 +112,50 @@ module FameChecker
     end
     puts("info was neither an Integer, or a Symbol")
     return false
+  end
+
+  # Use this function to change the name of a famous person from it's default
+  # famousPerson => Symbol or String, if it is a string, then it gets converted to a symbol
+  # newName => String
+  # FameChecker.changeFameName("OAK", "ROWAN") translates to FameChecker.changeFameName(:OAK, "ROWAN")
+  # IMPORTANT NOTE:
+  #   If you use this function it will mean that the new name will be saved to the save file,
+  #   If you change the name of the character within the PBS file afterwards it will not reflect on the famous people
+  #   that have used this function. That being said, the main usage of this function is to change the name of a famous person
+  #   through story beats. So it would be unlikely that you would have to change it.
+  def self.changeFameName(famousPerson, newName)
+    self.ensureCompiledData()
+    famousPerson = famousPerson.to_sym if famousPerson.is_a?(String)
+    if not $PokemonGlobal.FamousPeople[famousPerson]
+      puts("#{famousPerson} doesn't exist")
+      return
+    end
+    $PokemonGlobal.FamousPeople[famousPerson][:Name] = newName
+  end
+
+  # Use this function to get the current display name of a famous person
+  # famousPerson => Symbol or String, if it is a string, then it gets converted to a symbol
+  # FameChecker.getFameName("OAK") translates to FameChecker.fetFameName(:OAK)
+  def self.getFameName(famousPerson)
+    self.ensureCompiledData()
+    famousPerson = famousPerson.to_sym if famousPerson.is_a?(String)
+    if not $PokemonGlobal.FamousPeople[famousPerson]
+      puts("#{famousPerson} doesn't exist")
+      return
+    end
+    return $PokemonGlobal.FamousPeople[famousPerson][:Name] ? $PokemonGlobal.FamousPeople[famousPerson][:Name] : @@compiledData[famousPerson][:Name]
+  end
+
+  # Use this function to remove the current display name, provided it was changed in the first place
+  # famousPerson => Symbol or String, if it is a string, then it gets converted to a symbol
+  # FameChecker.removeFameName("OAK") translates to FameChecker.removeFameName(:OAK)
+  def self.removeFameName(famousPerson)
+    self.ensureCompiledData()
+    famousPerson = famousPerson.to_sym if famousPerson.is_a?(String)
+    if not $PokemonGlobal.FamousPeople[famousPerson]
+      puts("#{famousPerson} doesn't exist")
+      return
+    end
+    $PokemonGlobal.FamousPeople[famousPerson].delete(:Name) if $PokemonGlobal.FamousPeople[famousPerson][:Name]
   end
 end

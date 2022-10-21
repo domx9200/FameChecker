@@ -30,7 +30,7 @@ module FameChecker
       @@sprites[:selectListArrow].x = 18
       @@sprites[:selectListArrow].y = 50
 
-      defaultTextPaddingReset = Essentials::VERSION == "19.1" ? -4 : 0 # The odd padding was removed in v20, so long as I am maintaining v19, however, this needs to exist
+      defaultTextPaddingReset = -4
       betweenYPadding = 4
       textHeight = 22
       @totalYPadding = textHeight + defaultTextPaddingReset + betweenYPadding
@@ -43,7 +43,7 @@ module FameChecker
       @currentPosition = 0
       @positionList = []
       @maximumPosition = 0
-      @visibleWindow = [0, 9] # TODO: change 10 to whatever is visible by default
+      @visibleWindow = [0, 9]
       self.redrawListText()
       self.updateArrowVisibility()
       pbUpdateSpriteHash(@@sprites)
@@ -52,15 +52,17 @@ module FameChecker
     def redrawListText()
       @@sprites[:list].bitmap.clear
       startingXPadding = 18
+      startingYPadding = 0
       x = 0 + startingXPadding
-      y = 0
+      y = 0 + startingYPadding
       pos = 0
       @positionList = []
       @@compiledData.each { |name, values|
         seen = $PokemonGlobal.FamousPeople[name][:HasBeenSeen]
         if seen
-          textSize = @@sprites[:list].bitmap.text_size(values[:Name])
-          pbDrawShadowText(@@sprites[:list].bitmap, x, y, textSize.width, textSize.height, values[:Name].upcase, pos != @currentPosition ? @baseListTextColor : @selectListTextColor, pos != @currentPosition ? @baseListTextShadow : @selectListTextShadow)
+          text = $PokemonGlobal.FamousPeople[name][:Name] ? $PokemonGlobal.FamousPeople[name][:Name] : values[:Name]
+          textSize = @@sprites[:list].bitmap.text_size(text)
+          pbDrawShadowText(@@sprites[:list].bitmap, x, y, textSize.width, textSize.height, text.upcase, pos != @currentPosition ? @baseListTextColor : @selectListTextColor, pos != @currentPosition ? @baseListTextShadow : @selectListTextShadow)
           @positionList.push(name)
           y += @totalYPadding
           pos += 1
