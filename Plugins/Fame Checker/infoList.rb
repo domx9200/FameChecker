@@ -127,17 +127,6 @@ module FameChecker
         end
         i += 1
       }
-      # infoArray.each { |element|
-      #   if element[:HasBeenSeen]
-      #     frameSize = element[:FrameSize]
-      #     framesToShow = element[:FramesToShow]
-      #     @@sprites["Info#{i}".to_sym] = InfoSprite.new(element[:SpriteLocation], element[:NumFrames], frameSize[0], frameSize[1],
-      #                                                   element[:FrameSkip], framesToShow[0], framesToShow[1], @@vp)
-      #   else
-      #     @@sprites["Info#{i}".to_sym] = InfoSprite.new(@unknownLocation, 1, 64, 64, 0, 0, 0, @@vp)
-      #   end
-      #   i += 1
-      # }
     end
 
     def displayInfoSprites(currentPos = 0, allClear = false)
@@ -148,11 +137,6 @@ module FameChecker
       self.clearSprites()
       self.createInfoSprites()
 
-      # input = []
-      # @visibleElements.each{ |i|
-      #   input.push(infoElem[i])
-      # }
-      # self.createInfoSprites(input)
       case @visibleElements.length
       when 1
         self.displayOneInfo()
@@ -266,8 +250,8 @@ module FameChecker
       @currentPosition = newPosition
       self.updateSelectBox
       self.updateMiddleText
-      self.updateGrayScale(allClear)
       @@sprites["Info#{newPosition}".to_sym].play
+      self.updateGrayScale(allClear)
       return 0
     end
 

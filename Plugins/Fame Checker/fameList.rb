@@ -60,8 +60,9 @@ module FameChecker
       @@compiledData.each { |name, values|
         seen = $PokemonGlobal.FamousPeople[name][:HasBeenSeen]
         if seen
-          textSize = @@sprites[:list].bitmap.text_size(values[:Name])
-          pbDrawShadowText(@@sprites[:list].bitmap, x, y, textSize.width, textSize.height, values[:Name].upcase, pos != @currentPosition ? @baseListTextColor : @selectListTextColor, pos != @currentPosition ? @baseListTextShadow : @selectListTextShadow)
+          text = $PokemonGlobal.FamousPeople[name][:Name] ? $PokemonGlobal.FamousPeople[name][:Name] : values[:Name]
+          textSize = @@sprites[:list].bitmap.text_size(text)
+          pbDrawShadowText(@@sprites[:list].bitmap, x, y, textSize.width, textSize.height, text.upcase, pos != @currentPosition ? @baseListTextColor : @selectListTextColor, pos != @currentPosition ? @baseListTextShadow : @selectListTextShadow)
           @positionList.push(name)
           y += @totalYPadding
           pos += 1

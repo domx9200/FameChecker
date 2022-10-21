@@ -1,11 +1,34 @@
 Name       = Fame Checker
-Version    = 2.0.3
+Version    = 2.0.4
 Essentials = 20.1
 Website    = https://github.com/domx9200/FameChecker
 Credits    = domx9200
 
 #===========================================================================================================================#
 # Change log                                                                                                                #
+#===========================================================================================================================#
+# 2.0.4																														#
+# Bug Fix																													#
+#	As it turns out, I had a hidden bug within the save parity system, that meant that save data for the plugin could break	#
+#		in it's entirety. Basically, if you added an element or removed an element from any point that wasn't the last 		#
+#		element it would cause the save file to desync. this also happened if you swapped the locations						#
+#		of two pieces of information. I have now fixed that bug, however, if a save file 									#
+#		was already broken prior to this release, there is nothing I can do to fix it because I had to implement 			#
+#		a new element to the save file to ensure this doesn't happen in the future, and it is filled based on				#
+#		the most recent compile and the last processed data. That being said, if you have only 								#
+#		removed or added elements on the end of a famous person, didn't do both adding and removing, nor swapped 			#
+#		any elements around, you shouldn't have any issues.																	#
+#	Fixed a small bug where the first element would animate when still selecting a famous person							#
+# Limitation																												#
+#	Because of this implementation, if change the [] part of an element, it will be reset to it's default value,			#
+#	as the key no longer exists. If you want to change the name of an element, you might want to change it in the PBS file	#
+# Update																													#
+#	Added the ability to modify the display name of famous people. Keep in mind that if the name was modified, it will		#
+#		continue to be that name as it is saved to the save file. There are also included functions to get the display name	#
+#		as well as remove the display name.																					#
+#	Added the ability to put the item into the favorites menu. If you plan on using the actual item,						#
+#		then this will enable your players to favorite it if they want.														#
+#	Slightly changed the other user functions so that Strings(which convert to Symbols) can be used							#
 #===========================================================================================================================#
 # 2.0.3																														#
 # Bug Fix																													#
