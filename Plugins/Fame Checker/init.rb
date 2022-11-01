@@ -19,7 +19,7 @@ ItemHandlers::UseFromBag.add(:FAMECHECKER, proc { |item|
 # create the use item element so that the item can be used from the favorite menu
 ItemHandlers::UseInField.add(:FAMECHECKER, proc{ |item|
   next FameChecker.startFameChecker ? 1 : 0
-  })
+})
 
 module FameChecker
   @@vp = nil
@@ -33,13 +33,13 @@ module FameChecker
     pbDisposeSpriteHash(@@sprites)
   end
 
-  def self.createSaveHash()
+  def self.modifySaveHash()
     @@compiledData.each { |key, val|
       if not $PokemonGlobal.FamousPeople[key]
         $PokemonGlobal.FamousPeople[key] = {}
         hash = $PokemonGlobal.FamousPeople[key]
         hash[:HasBeenSeen] = val[:HasBeenSeen]
-        hash[:Complete] = val[:Complete]
+        hash[:Complete] = val[:Complete].dup
         hash[:FameLookup] = val[:FameLookup]
       end
       hash = $PokemonGlobal.FamousPeople[key]
@@ -51,7 +51,7 @@ module FameChecker
         hash[:FameInfo] = Array.new(val[:FameInfo].length){|i| val[:FameInfo][i][:HasBeenSeen]}
       else
         newFameInfo = Array.new(val[:FameInfo].length) {|i| val[:FameInfo][i][:HasBeenSeen]} # generate a new FameInfo for the current famous person
-        hash[:Complete] = val[:Complete] # Set the default complete variable
+        hash[:Complete] = val[:Complete].dup # Set the default complete variable
         hash[:FameLookup].each { |k, value| # run through the entirety of the hash's original fame lookup to see if keys match
           next if not val[:FameLookup][k] # skip if there isn't a key within the compiled data, that element was deleted
           tf = hash[:FameInfo][value] # get the save data seen value
@@ -84,7 +84,7 @@ module FameChecker
     return if @@reloaded == true
     $PokemonGlobal.FamousPeople = {} if not $PokemonGlobal.FamousPeople
     @@compiledData = load_data("Data/fame_targets.dat") rescue {}
-    self.createSaveHash()
+    self.modifySaveHash()
     self.convertOldSave()
     $game_switches[FAME_SWITCH] = self.completed?()
     @@reloaded = true
@@ -391,4 +391,3 @@ module Compiler
     FameChecker.compile()
   end
 end
-

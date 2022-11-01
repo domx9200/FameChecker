@@ -13,7 +13,7 @@ module FameChecker
       @@sprites[:listBackground].z = -2
       @@sprites[:listBackground].x = 15
       @@sprites[:listBackground].y = 46
-      
+
       #  x 235: y 232
       @@sprites[:infoTextBackground] = Sprite.new(@@vp)
       @@sprites[:infoTextBackground].bitmap = Bitmap.new("#{folder}/BG/bgInfoText.png")
