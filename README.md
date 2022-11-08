@@ -144,6 +144,10 @@ FameInfo = {
 }
 ```
 
+## **New Debug Menu**
+
+There is now a way to create, remove, and modify the fame targets and fame info. To get to it, all you need to do is go into the pause menu -> DEBUG -> Information Editors... -> Edit Fame Data.
+
 I have also included a variable within **userFunctions.rb** called COMPILE_FOLDER that you can change if you would like the PBS files to be in a different folder.
 
 ### Function Call Examples
