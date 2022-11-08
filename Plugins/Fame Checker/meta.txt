@@ -1,11 +1,29 @@
 Name       = Fame Checker
-Version    = 2.0.4
+Version    = 2.1.0
 Essentials = 20.1
 Website    = https://github.com/domx9200/FameChecker
 Credits    = domx9200
 
 #===========================================================================================================================#
 # Change log                                                                                                                #
+#===========================================================================================================================#
+# 2.1.0																														#
+# Bug Fix																													#
+#	Small inconcequential bug fix that wouldn't hav affected anybody in the long run within the save parity system.			#
+#		Basically, because of how Ruby handles passing variables, it just created a reference to one of the variables		#
+#		which basically meant that the changes that were made to the parity part also changed the compiled data.			#
+#		The reason why it didn't effect anything is because the compiled data is compiled prior to runtime,					#
+#		since the data in the save parity system gets saved when the program closes, it further doesn't do anything.		#
+# Compiler Update																											#
+#	Added a few new guards in the compiler to make sure that the compiled data is properly intended.						#
+#	Created a new system for printing the compiled data to the fame_targets.txt file. This ties into the other feature		#
+# Debug Menu																												#
+#	Added the ability to add, Modify, or Remove fame targets and fame info within the debug menu. This ended up taking 		#
+#	longer than I expected because of how involved the debug menu functions were. 											#
+#	that being said it should work without any issues.																		#
+# Other Misc Things																											#
+#	Did a bit of small quality of life things in the background, the end user probably won't need to worry about it.		#
+#	Mainly, as part of the compiler update, I separated out the compile code to make it much easier to understand.			#
 #===========================================================================================================================#
 # 2.0.4																														#
 # Bug Fix																													#

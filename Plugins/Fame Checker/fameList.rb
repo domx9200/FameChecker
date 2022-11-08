@@ -43,7 +43,7 @@ module FameChecker
       @currentPosition = 0
       @positionList = []
       @maximumPosition = 0
-      @visibleWindow = [0, 9] # TODO: change 10 to whatever is visible by default
+      @visibleWindow = [0, 9]
       self.redrawListText()
       self.updateArrowVisibility()
       pbUpdateSpriteHash(@@sprites)
@@ -52,7 +52,7 @@ module FameChecker
     def redrawListText()
       @@sprites[:list].bitmap.clear
       startingXPadding = 18
-      startingYPadding = 4
+      startingYPadding = Essentials::VERSION == "19.1" ? 0 : 4
       x = 0 + startingXPadding
       y = 0 + startingYPadding
       pos = 0

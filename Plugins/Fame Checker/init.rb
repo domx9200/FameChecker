@@ -11,7 +11,7 @@ class PokemonGlobalMetadata
   end
 end
 
-# create the use item element so that the item proper can be used if wanted
+# create the use item element so that the item properly can be used if wanted
 ItemHandlers::UseFromBag.add(:FAMECHECKER, proc { |item|
   next FameChecker.startFameChecker ? 1 : 0
 })
@@ -19,7 +19,18 @@ ItemHandlers::UseFromBag.add(:FAMECHECKER, proc { |item|
 # create the use item element so that the item can be used from the favorite menu
 ItemHandlers::UseInField.add(:FAMECHECKER, proc{ |item|
   next FameChecker.startFameChecker ? 1 : 0
-  })
+})
+
+# create debug menu item
+MenuHandlers.add(:debug_menu, :modifyFameData, {
+  "name"        => _INTL("Edit Fame Data"),
+  "parent"      => :editors_menu,
+  "description" => _INTL("Add or remove Famous People and their Info."),
+  "always_show" => true,
+  "effect"      => proc {
+    pbFadeOutIn { fameTargetEditor() }
+  }
+})
 
 module FameChecker
   @@vp = nil
@@ -33,13 +44,13 @@ module FameChecker
     pbDisposeSpriteHash(@@sprites)
   end
 
-  def self.createSaveHash()
+  def self.modifySaveHash()
     @@compiledData.each { |key, val|
       if not $PokemonGlobal.FamousPeople[key]
         $PokemonGlobal.FamousPeople[key] = {}
         hash = $PokemonGlobal.FamousPeople[key]
         hash[:HasBeenSeen] = val[:HasBeenSeen]
-        hash[:Complete] = val[:Complete]
+        hash[:Complete] = val[:Complete].dup
         hash[:FameLookup] = val[:FameLookup]
       end
       hash = $PokemonGlobal.FamousPeople[key]
@@ -51,7 +62,7 @@ module FameChecker
         hash[:FameInfo] = Array.new(val[:FameInfo].length){|i| val[:FameInfo][i][:HasBeenSeen]}
       else
         newFameInfo = Array.new(val[:FameInfo].length) {|i| val[:FameInfo][i][:HasBeenSeen]} # generate a new FameInfo for the current famous person
-        hash[:Complete] = val[:Complete] # Set the default complete variable
+        hash[:Complete] = val[:Complete].dup # Set the default complete variable
         hash[:FameLookup].each { |k, value| # run through the entirety of the hash's original fame lookup to see if keys match
           next if not val[:FameLookup][k] # skip if there isn't a key within the compiled data, that element was deleted
           tf = hash[:FameInfo][value] # get the save data seen value
@@ -80,14 +91,21 @@ module FameChecker
     return true
   end
 
-  def self.ensureCompiledData()
-    return if @@reloaded == true
+  def self.ensureCompiledData(overwrite = false)
+    return if @@reloaded == true and overwrite == false
     $PokemonGlobal.FamousPeople = {} if not $PokemonGlobal.FamousPeople
     @@compiledData = load_data("Data/fame_targets.dat") rescue {}
-    self.createSaveHash()
+    self.modifySaveHash()
     self.convertOldSave()
     $game_switches[FAME_SWITCH] = self.completed?()
     @@reloaded = true
+  end
+
+  def self.compiledData()
+    if @@compiledData == nil
+      self.ensureCompiledData()
+    end
+    return @@compiledData
   end
 
   # I was planning on cutting this down as there is a lot of things in it that I personally
@@ -391,4 +409,3 @@ module Compiler
     FameChecker.compile()
   end
 end
-

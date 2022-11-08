@@ -273,7 +273,7 @@ module FameChecker
       return -1 if elem[:MiddleScreenText] == nil
       return 0 if !$PokemonGlobal.FamousPeople[@currentInfoPerson][:FameInfo][self.currentElement]
       startingXPadding = 104
-      startingYPadding = 4
+      startingYPadding = Essentials::VERSION == "19.1" ? 0 : 4
       x = 0 + startingXPadding
       y = 0 + startingYPadding
       elem[:MiddleScreenText].each { |line|
