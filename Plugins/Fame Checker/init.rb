@@ -21,6 +21,17 @@ ItemHandlers::UseInField.add(:FAMECHECKER, proc{ |item|
   next FameChecker.startFameChecker ? 1 : 0
 })
 
+# create debug menu item
+DebugMenuCommands.register("modifyFameData", {
+  "name"        => _INTL("Edit Fame Data"),
+  "parent"      => "editorsmenu",
+  "description" => _INTL("Add or remove Famous People and their Info."),
+  "always_show" => true,
+  "effect"      => proc {
+    pbFadeOutIn { fameTargetEditor() }
+  }
+})
+
 module FameChecker
   @@vp = nil
   @@sprites = {}
@@ -80,14 +91,21 @@ module FameChecker
     return true
   end
 
-  def self.ensureCompiledData()
-    return if @@reloaded == true
+  def self.ensureCompiledData(overwrite = false)
+    return if @@reloaded == true and overwrite == false
     $PokemonGlobal.FamousPeople = {} if not $PokemonGlobal.FamousPeople
     @@compiledData = load_data("Data/fame_targets.dat") rescue {}
     self.modifySaveHash()
     self.convertOldSave()
     $game_switches[FAME_SWITCH] = self.completed?()
     @@reloaded = true
+  end
+
+  def self.compiledData()
+    if @@compiledData == nil
+      self.ensureCompiledData()
+    end
+    return @@compiledData
   end
 
   # I was planning on cutting this down as there is a lot of things in it that I personally

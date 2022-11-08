@@ -49,6 +49,21 @@ module FameChecker
     pbSetWindowText(nil)
   end
 
+  def self.recompile()
+    write_fame_targets()
+    puts "\nUpdating Data/fame_targets.dat..."
+    data = compile_Fame_Targets()
+    save_data(data, "Data/fame_targets.dat") if data != nil
+    if data == nil
+      puts "Compiling Failed, somehow couldn't find the file that was written to."
+      return
+    end
+    puts "Compiling of new fame_targets.dat successful.\n" if data != nil
+    puts "Reloading compiled data..."
+    ensureCompiledData(true)
+    puts "Compiled Data reloaded."
+  end
+
   def self.seperateCommaValues(str, type)
     outputs = [""]
     pos = 0
@@ -429,6 +444,7 @@ module FameChecker
 
   def self.write_fame_targets()
     return if @@compiledData == nil
+    puts "Begin writing fame_targets.txt within #{COMPILE_FOLDER}..."
     filePath = "#{COMPILE_FOLDER}/fame_targets.txt"
     File.open("#{filePath}", "w"){ |file|
       writeFameTargetsHeader(file)
@@ -446,5 +462,6 @@ module FameChecker
         file.write("#------------------------------------------\n")
       }
     }
+    puts "\nFile successfully written to."
   end
 end
