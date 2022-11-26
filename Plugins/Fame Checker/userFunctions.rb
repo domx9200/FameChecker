@@ -1,11 +1,14 @@
 module FameChecker
   FAME_SWITCH = 2765 # default switch value, just change this value to anything 5000 or less if switch 2765 is already in use
   COMPILE_FOLDER = "PBS/FameChecker" # default folder location of the PBS file is PBS/FameChecker, If you want it to compile from another location, just change this
+  COMPLETION_TEXT = true # Change this to false if you don't want the message to display after finding all pieces of info for a famous person.
 
   # This is the function that you want to run in any situation other than using the Fame Checker item
   def self.startFameChecker()
     pbFadeOutIn {
       self.ensureCompiledData()
+      # puts $PokemonGlobal.FamousPeople[:OAK]
+      # break
       runtimeHandler = RuntimeHandler.new
       runtimeHandler.run()
       self.cleanup()

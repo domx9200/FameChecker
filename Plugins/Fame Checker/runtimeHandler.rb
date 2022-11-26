@@ -46,7 +46,14 @@ module FameChecker
         msgBox = pbCreateMessageWindow()
         message = ""
         if @device.deviceIn
-          message = currentFame == :CANCEL ? "CANCEL" : @@compiledData[currentFame][:Name].upcase
+          message = "CANCEL"
+          if currentFame != :CANCEL
+            name = $PokemonGlobal.FamousPeople[currentFame][:Name]
+            name = @@compiledData[currentFame][:Name] if !name
+            check = $PokemonGlobal.FamousPeople[currentFame][:Complete]
+            message = "From: #{name.upcase}\nTo: #{$Trainer.name}" if check[0] == check[1]
+            message = name.upcase if (check[0] != check[1] or COMPLETION_TEXT == false)
+          end
         else
           message = currentFame != :CANCEL ? "" : "The Fame Checker will be closed"
         end
@@ -64,7 +71,9 @@ module FameChecker
             break if !@device.deviceIn
           elsif Input.trigger?(Input::USE)
             input = Input::USE
-            break if !@device.deviceIn and !@infoList.noElems or @fameList.getCurrentPosition == :CANCEL
+            break if @fameList.getCurrentPosition == :CANCEL
+            check = $PokemonGlobal.FamousPeople[currentFame][:Complete]
+            break if !@device.deviceIn and !@infoList.noElems or (@device.deviceIn and check[0] == check[1])
           end
         }
         pbDisposeMessageWindow(msgBox)
@@ -92,8 +101,20 @@ module FameChecker
             pbPlayCloseMenuSE
             return :Close
           end
-          pbPlayDecisionSE
-          return :InfoList
+          check = $PokemonGlobal.FamousPeople[currentFame][:Complete]
+          if @device.deviceIn and check[0] == check[1]
+            msgBox = pbCreateMessageWindow()
+            @@compiledData[currentFame][:PlayerMessage].each { |line|
+              self.messageDisplay(msgBox, line){
+                @@sprites[:deviceBall].angle += ballRotation
+                pbUpdateSpriteHash(@@sprites)
+              }
+            }
+            pbDisposeMessageWindow(msgBox)
+          else
+            pbPlayDecisionSE
+            return :InfoList
+          end
         when Input::ACTION
           if !@device.deviceIn
             pbPlayDecisionSE

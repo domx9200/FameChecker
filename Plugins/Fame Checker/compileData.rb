@@ -3,7 +3,8 @@ module FameChecker
     "Name" => [:Name, "s"],
     "HasBeenSeen" => [:HasBeenSeen, "b"],
     "SpriteLocation" => [:SpriteLocation, "s"],
-    "SpriteOffset" => [:SpriteOffset, "*i"]
+    "SpriteOffset" => [:SpriteOffset, "*i"],
+    "PlayerMessage" => [:PlayerMessage, "*s"]
   }
 
   FameInfoSchema = {
@@ -179,6 +180,7 @@ module FameChecker
     data[currentFame][:Name] = currentFame.to_s if not data[currentFame][:Name]
     data[currentFame][:HasBeenSeen] = false if not data[currentFame][:HasBeenSeen]
     data[currentFame][:SpriteOffset] = [0, 0] if not data[currentFame][:SpriteOffset]
+    data[currentFame][:PlayerMessage] = ["No Message Given..."] if not data[currentFame][:PlayerMessage]
     raise _INTL("#{currentFame} was never provided a SpriteLocation, this is required\n") if not data[currentFame][:SpriteLocation]
     File.open(data[currentFame][:SpriteLocation], "rb") # rescue raise _INTL("#{currentFame} was provided a SpriteLocation, however the file doesn't exist or is a folder.\n")
   end
@@ -278,6 +280,7 @@ module FameChecker
         :HasBeenSeen => true,
         :SpriteLocation => "Graphics/Pictures/FameChecker/DeviceSprites/OAK.png",
         :SpriteOffset => [-2, 0],
+        :PlayerMessage => ["Well then, You know a lot about me don't you?", "Must be nice knowing so much about somebody."],
         :FameInfo => [
           {
             :Key => :EXPERIMENT,
@@ -430,12 +433,15 @@ module FameChecker
   def self.write_fame_info(file, fameArray)
     file.write("FameInfo = {\n")
     fameArray.each{ |elem|
+      foundNumFrames = false
       file.write("\t[#{elem[:Key].to_s}]\n")
       elem.each{ |key, val|
         next if key == :Key
+        next if ((key == :NumFrames or key == :Frames) and foundNumFrames)
         next if not FameInfoSchema[key.to_s]
         schem = FameInfoSchema[key.to_s]
         writeBySchema(file, val, schem, true)
+        foundNumFrames = true if key == :NumFrames or key == :Frames
       }
       file.write("\t#------------------------------------------\n")
     }

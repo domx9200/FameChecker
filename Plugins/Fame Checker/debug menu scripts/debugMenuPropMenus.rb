@@ -5,7 +5,8 @@ def fameTargetEditor()
     [_INTL("SpriteLocation"), StringProperty, _INTL("The full path to the location of the sprite related to this target.")],
     [_INTL("HasBeenSeen"), BooleanProperty2, _INTL("The value that represents if the target has been seen by the player or not.")],
     [_INTL("SpriteOffset"), TwoIntegerProperty.new(true), _INTL("The value that represents the offset from the center of the device.")],
-    [_INTL("FameInfo"), FameInfoProperty, _INTL("The value that represents the list of all Info related to the famous person.")]
+    [_INTL("FameInfo"), FameInfoProperty, _INTL("The value that represents the list of all Info related to the famous person.")],
+    [_INTL("PlayerMessage"), StringArrayProperty, _INTL("The value that reperesents the message that will be played when the player has collected all pieces of info.")]
   ]
 
   new_target_properties = [
@@ -13,7 +14,8 @@ def fameTargetEditor()
     [_INTL("Name"), StringProperty, _INTL("Name of the target to be displayed in the Fame Checker window.")],
     [_INTL("SpriteLocation"), StringProperty, _INTL("The full path to the location of the sprite related to this target.")],
     [_INTL("HasBeenSeen"), BooleanProperty2, _INTL("The value that represents if the target has been seen by the player or not.")],
-    [_INTL("SpriteOffset"), TwoIntegerProperty.new(true), _INTL("The value that represents the offset from the center of the device.")]
+    [_INTL("SpriteOffset"), TwoIntegerProperty.new(true), _INTL("The value that represents the offset from the center of the device.")],
+    [_INTL("PlayerMessage"), StringArrayProperty, _INTL("The value that reperesents the message that will be played when the player has collected all pieces of info.")]
   ]
 
   pbListScreenBlock(_INTL("Famous People"), FameLister.new()) { |button, index|
@@ -34,6 +36,7 @@ def fameTargetEditor()
           data.push(fame[:HasBeenSeen])
           data.push(fame[:SpriteOffset])
           data.push([fame[:FameInfo].dup, index])
+          data.push(fame[:PlayerMessage])
         end
         ret = pbPropertyList("#{index}'s data", data, target_properties, true)
         if ret == true
@@ -42,6 +45,7 @@ def fameTargetEditor()
           fame[:HasBeenSeen] = data[3] == nil ? false : data[3]
           fame[:SpriteOffset] = data[4]
           fame[:FameInfo] = data[5][0] if (data[5][0] and !data[5][0].empty?)
+          fame[:PlayerMessage] = data[6].length > 0 ? data[6] : fame[:PlayerMessage]
         end
       elsif index == true
         data = [
@@ -49,7 +53,8 @@ def fameTargetEditor()
           "???",
           "File/Path/Goes/Here",
           false,
-          [0,0]
+          [0,0],
+          [""]
         ]
         ret = pbPropertyList("New Fame Target", data, new_target_properties, true)
         if ret == true
@@ -59,6 +64,7 @@ def fameTargetEditor()
           newHash[:SpriteLocation] = data[2]
           newHash[:HasBeenSeen] = data[3]
           newHash[:SpriteOffset] = data[4]
+          newHash[:PlayerMessage] = data[5]
           dat[data[0].to_sym] = newHash
           FameChecker.ensureRequiredData(dat, data[0].to_sym)
           FameChecker.compiledData[data[0].to_sym] = dat[data[0].to_sym]
@@ -151,24 +157,23 @@ def fameInfoEditor(famousData)
           0,
           [0,0]
         ]
-      end
-
-      ret = pbPropertyList(_INTL("New Info Element"), data, new_info_properties, true)
-      if ret == true
-        famousData[0].push({})
-        elem = famousData[0].last
-        elem[:Key] = data[0] != "" ? data[0].upcase.to_sym : "DEFUALTKEY"
-        elem[:SpriteLocation] = data[1] == "" ? nil : data[1]
-        elem[:HasBeenSeen] = data[2] == nil ? false : data[2]
-        elem[:IsAnimated] = data[3] == nil ? false : data[3]
-        elem[:MiddleScreenText] = data[4] != ["",""] ? data[4] : ["Middle Screen", "Text"]
-        elem[:HoverText] = data[5] != "" ? data[5] : "Hover Text"
-        elem[:SelectText] = data[6] != [""] ? data[6] : ["Select Text"]
-        elem[:Frames] = data[7] if data[7] != 0
-        elem[:FramesToShow] = data[8] if data[8] != [0,0]
-        elem[:FrameSkip] = data[9] if data[9] != 0
-        elem[:FrameSize] = data[10] if data[10] != [0,0]
-        FameChecker.ensureInfoSizeData(famousData[1], elem, data[0])
+        ret = pbPropertyList(_INTL("New Info Element"), data, new_info_properties, true)
+        if ret == true
+          famousData[0].push({})
+          elem = famousData[0].last
+          elem[:Key] = data[0] != "" ? data[0].upcase.to_sym : "DEFUALTKEY"
+          elem[:SpriteLocation] = data[1] == "" ? nil : data[1]
+          elem[:HasBeenSeen] = data[2] == nil ? false : data[2]
+          elem[:IsAnimated] = data[3] == nil ? false : data[3]
+          elem[:MiddleScreenText] = data[4] != ["",""] ? data[4] : ["Middle Screen", "Text"]
+          elem[:HoverText] = data[5] != "" ? data[5] : "Hover Text"
+          elem[:SelectText] = data[6] != [""] ? data[6] : ["Select Text"]
+          elem[:Frames] = data[7] if data[7] != 0
+          elem[:FramesToShow] = data[8] if data[8] != [0,0]
+          elem[:FrameSkip] = data[9] if data[9] != 0
+          elem[:FrameSize] = data[10] if data[10] != [0,0]
+          FameChecker.ensureInfoSizeData(famousData[1], elem, data[0])
+        end
       end
     end
   }
