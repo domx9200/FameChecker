@@ -1,11 +1,21 @@
 Name       = Fame Checker
-Version    = 2.1.0
+Version    = 2.1.1
 Essentials = 20.1
 Website    = https://github.com/domx9200/FameChecker
 Credits    = domx9200
 
 #===========================================================================================================================#
 # Change log                                                                                                                #
+#===========================================================================================================================#
+# 2.1.1																														#
+# Update																													#
+#	Added the ability to display a message for the player when having found all of the pieces of info for a famous person	#
+#		This basically means that as of now, all of the default features that were within the original version				#
+#		are now implemented. I have also added a switch within the userFunctions file to exclude the new feature if wanted	#
+#		This also means that you can modify this value within the debug menu.												#
+# Hope everybody has enjoyed using this plugin so far, but I've run out of ideas to add more to it, so unless I get some	#
+# more ideas from the community, I think this plugin will be put into maintanance mode for the time being.					#
+# Seriously, thanks for even taking the time to check it out, I really enjoyed every moment of developing this				#
 #===========================================================================================================================#
 # 2.1.0																														#
 # Bug Fix																													#

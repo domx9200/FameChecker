@@ -75,6 +75,7 @@ Below is a table containing every possible element that you can input, below tha
 |         SpriteLocation          |  String  |   Yes    |       N/A       |                                                                                If there is no device sprite, the program will crash                                                                                 |
 |          SpriteOffset           | Int, Int |    No    |      0, 0       |                                                                                   Modifies the position of the device sprite x, y                                                                                   |
 | FameInfo = {<br>info input<br>} |   N/A    |    No    |       N/A       | This is not required if you don't have any bits of info, but is absolutely necessary for including any bits of info. make sure that FameInfo = { is the only thing on its line, and } is the only thing on its line |
+|          PlayerMessage          | any number of strings |    No    | No Message Given... | This element is specifically for the message to give to the player when they have found every piece of info for the given famous person. it will be formated in the style of a letter in the same way Fire Red and Leaf Green did. |
 
 #### input for bits of info
 
@@ -153,6 +154,8 @@ FameInfo = {
 There is now a way to create, remove, and modify the fame targets and fame info. To get to it, all you need to do is go into the pause menu -> DEBUG -> Information Editors... -> Edit Fame Data.
 
 I have also included a variable within **userFunctions.rb** called COMPILE_FOLDER that you can change if you would like the PBS files to be in a different folder.
+
+I have now also included a variable within **userFunctions.rb** called COMPLETION_TEXT that you can change to false if you don't want completion messages for your players.
 
 ### Function Call Examples
 
