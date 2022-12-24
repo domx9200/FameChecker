@@ -7,8 +7,6 @@ module FameChecker
   def self.startFameChecker()
     pbFadeOutIn {
       self.ensureCompiledData()
-      # puts $PokemonGlobal.FamousPeople[:OAK]
-      # break
       runtimeHandler = RuntimeHandler.new
       runtimeHandler.run()
       self.cleanup()
